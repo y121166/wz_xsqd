@@ -4,7 +4,10 @@
     <bookmark url="file://$PROJECT_DIR$/wzjt/wz_pack/vehicle.py" description="# dep_id = request.session['dep_id']" line="6" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="631aad05-95fc-4416-afc9-7eb72ba48436" name="Default" comment="" />
+    <list default="true" id="631aad05-95fc-4416-afc9-7eb72ba48436" name="Default" comment="Test">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/wzjt/static/wzjs/Test.js" beforeDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -75,8 +78,8 @@
       <file leaf-file-name="urls.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/rbac/urls.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="228">
-              <caret line="14" column="48" selection-start-line="14" selection-start-column="48" selection-end-line="14" selection-end-column="48" />
+            <state relative-caret-position="171">
+              <caret line="11" column="10" lean-forward="true" selection-start-line="11" selection-start-column="10" selection-end-line="11" selection-end-column="10" />
               <folding>
                 <element signature="e#0#28#0" expanded="true" />
               </folding>
@@ -186,7 +189,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/rbac/templates/rbac/form-elements.html" />
         <option value="$PROJECT_DIR$/rbac/service/init_permission.py" />
         <option value="$PROJECT_DIR$/xsqd/templates/xsqd/index.html" />
         <option value="$PROJECT_DIR$/wzjt/templates/wzjt/data/menudata.js" />
@@ -237,6 +239,7 @@
         <option value="$PROJECT_DIR$/wzjt/templates/wzjt/xsdetail_add_table.html" />
         <option value="$PROJECT_DIR$/wzjt/static/wzjs/detail.js" />
         <option value="$PROJECT_DIR$/wz_xsqd/settings.py" />
+        <option value="$PROJECT_DIR$/wzjt/static/wzjs/Test.js" />
       </list>
     </option>
   </component>
@@ -268,48 +271,6 @@
             <path>
               <item name="wz_xsqd" type="b2602c69:ProjectViewProjectNode" />
               <item name="wz_xsqd" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="wz_xsqd" type="b2602c69:ProjectViewProjectNode" />
-              <item name="wz_xsqd" type="462c0819:PsiDirectoryNode" />
-              <item name="rbac" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="wz_xsqd" type="b2602c69:ProjectViewProjectNode" />
-              <item name="wz_xsqd" type="462c0819:PsiDirectoryNode" />
-              <item name="wzjt" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="wz_xsqd" type="b2602c69:ProjectViewProjectNode" />
-              <item name="wz_xsqd" type="462c0819:PsiDirectoryNode" />
-              <item name="wzjt" type="462c0819:PsiDirectoryNode" />
-              <item name="static" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="wz_xsqd" type="b2602c69:ProjectViewProjectNode" />
-              <item name="wz_xsqd" type="462c0819:PsiDirectoryNode" />
-              <item name="wzjt" type="462c0819:PsiDirectoryNode" />
-              <item name="static" type="462c0819:PsiDirectoryNode" />
-              <item name="wzjs" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="wz_xsqd" type="b2602c69:ProjectViewProjectNode" />
-              <item name="wz_xsqd" type="462c0819:PsiDirectoryNode" />
-              <item name="wzjt" type="462c0819:PsiDirectoryNode" />
-              <item name="templates" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="wz_xsqd" type="b2602c69:ProjectViewProjectNode" />
-              <item name="wz_xsqd" type="462c0819:PsiDirectoryNode" />
-              <item name="wzjt" type="462c0819:PsiDirectoryNode" />
-              <item name="templates" type="462c0819:PsiDirectoryNode" />
-              <item name="wzjt" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="wz_xsqd" type="b2602c69:ProjectViewProjectNode" />
-              <item name="wz_xsqd" type="462c0819:PsiDirectoryNode" />
-              <item name="wzjt" type="462c0819:PsiDirectoryNode" />
-              <item name="wz_pack" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -460,6 +421,14 @@
       <option name="presentableId" value="Default" />
       <updated>1533780273552</updated>
     </task>
+    <task id="LOCAL-00001" summary="Test">
+      <created>1537151898987</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1537151898987</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TodoView">
@@ -472,7 +441,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1382" height="744" extended-state="7" />
+    <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32843137" />
@@ -527,6 +496,10 @@
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
   </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Test" />
+    <option name="LAST_COMMIT_MESSAGE" value="Test" />
+  </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <default-breakpoints>
@@ -540,20 +513,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/rbac/templates/rbac/dep_table.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-4073">
-          <caret line="78" column="45" lean-forward="true" selection-start-line="78" selection-start-column="45" selection-end-line="78" selection-end-column="45" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wzjt/templates/wzjt/vehicle_table.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="31">
-          <caret line="90" column="42" lean-forward="true" selection-start-line="90" selection-start-column="42" selection-end-line="90" selection-end-column="42" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/rbac/templates/rbac/error-404.html" />
     <entry file="file://$PROJECT_DIR$/rbac/static/assets/images/gallery/thumb-6.jpg">
       <provider selected="true" editor-type-id="images" />
@@ -814,10 +773,22 @@
     <entry file="file://$PROJECT_DIR$/rbac/admin.py">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
+    <entry file="file://$PROJECT_DIR$/log/admin.log">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1892" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wzjt/static/wzjs/Test.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="19">
+          <caret line="1" lean-forward="true" selection-start-line="1" selection-end-line="1" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/rbac/urls.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="228">
-          <caret line="14" column="48" selection-start-line="14" selection-start-column="48" selection-end-line="14" selection-end-column="48" />
+        <state relative-caret-position="171">
+          <caret line="11" column="10" lean-forward="true" selection-start-line="11" selection-start-column="10" selection-end-line="11" selection-end-column="10" />
           <folding>
             <element signature="e#0#28#0" expanded="true" />
           </folding>
