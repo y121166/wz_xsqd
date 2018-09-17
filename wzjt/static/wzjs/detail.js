@@ -93,6 +93,8 @@
         function detail_info_data(obj){
             $.get("/wzjt/"+$(obj).attr("data_id"),function (data){
                 var detail_info_data = eval(data.detaildata)[0];
+                var detail_head = detail_info_data["department__title"] + " 销售报价单";
+                $("#detail_head").children("h3").text(detail_head);
                 var table_id = "#view_table";
                 $(table_id+" .detail_joinus").each(function () {
                     var span_val = '';
@@ -421,7 +423,12 @@
 
         //打印
         function print_detail(){
-            $("#view_table").jqprint();
+            $(".modal_view").print({
+                deferred: $.Deferred(),
+                iframe:false,
+                append:null,
+                prepend:null,
+            });
         }
 
         //页面加载完成后 初始化

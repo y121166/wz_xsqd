@@ -185,7 +185,7 @@ def info_detail(request, nid):
             DetailInfo.objects.filter(id=nid).values(*values_map, "vehicle__vin", "vehicle", "vehicle__vehicle_type",
                                                      "vehicle__six_yards", "vehicle__guidance_price",
                                                      "report_name__last_name", "auditing_name__last_name",
-                                                     "settlement_name__last_name"))
+                                                     "settlement_name__last_name", "department__title"))
 
         response_data['detaildata'] = detail_list
         response_data['result'] = 'true'

@@ -37,7 +37,7 @@ def detail_create(request):
     # 前台传入字段
     data["status"] = int(request.POST.get("sub_val"))  # 是否提交
     data["vehicle_id"] = request.POST.get("vehicle_vin_id")  # 车辆vin 0
-    data["order_date"] = request.POST.get("detail_date")  # 订单日期0
+    data["order_date"] = request.POST.get("order_date")  # 订单日期0
     data["customer_name"] = request.POST.get("customer_name")  # 客户名称0
     data["customer_area"] = request.POST.get("customer_area")  # 客户区域0
     data["payment_way"] = int(request.POST.get("payment_way"))  # 付款方式0

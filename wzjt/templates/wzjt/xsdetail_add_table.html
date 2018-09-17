@@ -479,15 +479,12 @@
                     <h4 class="blue bigger">订单详情</h4>
                 </div><!-- /.modal-header -->
 
-                <div class="modal-body overflow-visible">
-                    <table border="1" id="view_table" style="margin:auto" >
-                        <tr class="center">
-                            <td colspan="11">
-                                <div>
-                                    <h2>XXX销售报价单</h2>
-                                </div>
-                            </td>
-                        </tr>
+                <div class="modal-body overflow-visible modal_view">
+                    <div>
+                        <div id="detail_head" class="center">
+                            <h3>XXX销售报价单</h3>
+                        </div>
+                        <table border="1" id="view_table" style="margin:auto" >
                         <tr>
                             <td>VIN:</td>
                             <td colspan="6">
@@ -754,6 +751,8 @@
                             </td>
                         </tr>
                     </table>
+                    </div>
+
                 </div>
 
                 <div class="modal-footer form-actions">
@@ -1110,6 +1109,7 @@
     <script src="{{ STATIC_URL }}assets/js/messages_zh.js"></script>
     <script src="{{ STATIC_URL }}wzjs/jquery-migrate.min.js"></script>
     <script src="{{ STATIC_URL }}wzjs/jquery.jqprint.js"></script>
+    <script src="{{ STATIC_URL }}wzjs/jQuery.print.js"></script>
     <!--自定义js-->
     <script src="{{ STATIC_URL }}wzjs/detail.js"></script>
     <script src="{{ STATIC_URL }}wzjs/wz-input-control.js"></script>
