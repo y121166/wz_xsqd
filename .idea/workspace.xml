@@ -5,9 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="631aad05-95fc-4416-afc9-7eb72ba48436" name="Default" comment="">
+      <change afterPath="$PROJECT_DIR$/wzjt/wz_pack/auth_login.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wzjt/templates/wzjt/xsdetail_add_table.html" beforeDir="false" afterPath="$PROJECT_DIR$/wzjt/templates/wzjt/xsdetail_add_table.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wzjt/templates/wzjt/xsdetail_audit_table.html" beforeDir="false" afterPath="$PROJECT_DIR$/wzjt/templates/wzjt/xsdetail_audit_table.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rbac/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/rbac/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/wzjt/wz_pack/detail.py" beforeDir="false" afterPath="$PROJECT_DIR$/wzjt/wz_pack/detail.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -43,29 +44,8 @@
       <file leaf-file-name="settings.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/wz_xsqd/settings.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="167">
-              <caret line="178" column="8" lean-forward="true" selection-start-line="178" selection-start-column="8" selection-end-line="178" selection-end-column="8" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="detail_audit.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/wzjt/static/wzjs/detail_audit.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="19">
-              <caret line="297" column="26" selection-start-line="297" selection-start-column="26" selection-end-line="297" selection-end-column="26" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="urls.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/rbac/urls.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="171">
-              <caret line="11" column="10" selection-start-line="11" selection-start-column="10" selection-end-line="11" selection-end-column="10" />
-              <folding>
-                <element signature="e#0#28#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="3382">
+              <caret line="178" column="8" selection-start-line="178" selection-start-column="8" selection-end-line="178" selection-end-column="8" />
             </state>
           </provider>
         </entry>
@@ -73,23 +53,8 @@
       <file leaf-file-name="detail.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/wzjt/static/wzjs/detail.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-240">
-              <caret line="433" column="21" lean-forward="true" selection-start-line="433" selection-start-column="21" selection-end-line="433" selection-end-column="21" />
-              <folding>
-                <element signature="n#!!block;n#createSelect#0" />
-                <element signature="n#!!block;n#detail_subtotal#0" />
-                <element signature="n#!!block;n#dkzj_sum#0" />
-                <element signature="n#!!block;n#detail_skzj_diff#0" />
-                <element signature="n#!!block;n#detail_zhihbt#0" />
-                <element signature="n#!!block;n#submit_add_detail#0" />
-                <element signature="n#!!block;n#submit_edit_detail#0" />
-                <element signature="n#!!block;n#submit_del_detail#0" />
-                <element signature="n#!!block;n#submit_withdraw_detail#0" />
-                <element signature="n#!!block;n#hide_show_model#0" />
-                <element signature="n#!!block;n#get_vehicle_card#0" />
-                <element signature="n#!!block;n#hiddenShowTr#0" />
-                <element signature="n#!!block;n#print_detail#0" />
-              </folding>
+            <state relative-caret-position="8227">
+              <caret line="433" column="21" selection-start-line="433" selection-start-column="21" selection-end-line="433" selection-end-column="21" />
             </state>
           </provider>
         </entry>
@@ -97,7 +62,7 @@
       <file leaf-file-name="jQuery.print.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/wzjt/static/wzjs/jQuery.print.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="152">
+            <state relative-caret-position="1729">
               <caret line="95" column="22" selection-start-line="95" selection-start-column="12" selection-end-line="95" selection-end-column="22" />
             </state>
           </provider>
@@ -106,17 +71,28 @@
       <file leaf-file-name="detail.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/wzjt/wz_pack/detail.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-3230">
-              <caret line="214" column="39" selection-start-line="214" selection-start-column="30" selection-end-line="214" selection-end-column="43" />
+            <state relative-caret-position="190">
+              <caret line="404" column="22" lean-forward="true" selection-start-line="404" selection-start-column="22" selection-end-line="404" selection-end-column="22" />
+              <folding>
+                <element signature="e#0#47#0" expanded="true" />
+                <element signature="e#164#2875#0" />
+                <element signature="e#2920#4095#1" />
+                <element signature="e#13742#13812#1" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="detail_lib.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="detail_lib.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/wzjt/wz_pack/detail_lib.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="319">
-              <caret line="62" column="8" selection-start-line="62" selection-start-column="8" selection-end-line="62" selection-end-column="8" />
+            <state relative-caret-position="171">
+              <caret line="109" lean-forward="true" selection-start-line="109" selection-end-line="109" />
+              <folding>
+                <element signature="e#104#809#0" />
+                <element signature="e#854#5350#0" />
+                <element signature="e#5393#9613#0" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -124,20 +100,53 @@
       <file leaf-file-name="xsdetail_add_table.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/wzjt/templates/wzjt/xsdetail_add_table.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="318">
-              <caret line="747" column="44" lean-forward="true" selection-start-line="747" selection-start-column="44" selection-end-line="747" selection-end-column="44" />
+            <state relative-caret-position="323">
+              <caret line="151" column="29" lean-forward="true" selection-start-line="151" selection-start-column="29" selection-end-line="151" selection-end-column="29" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="auth_login.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/wzjt/wz_pack/auth_login.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="182">
+              <caret line="16" column="45" lean-forward="true" selection-start-line="16" selection-start-column="45" selection-end-line="16" selection-end-column="45" />
               <folding>
-                <element signature="e#25027#25107#0#HTML" expanded="true" />
+                <element signature="e#7#39#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="xsdetail_audit_table.html" pinned="false" current-in-tab="true">
+      <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/rbac/views.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-2554">
+              <caret line="106" column="22" lean-forward="true" selection-start-line="106" selection-start-column="22" selection-end-line="106" selection-end-column="22" />
+              <folding>
+                <element signature="e#0#32#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="rbac.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/rbac/middleware/rbac.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state>
+              <caret selection-end-line="2" selection-end-column="9" />
+              <folding>
+                <element signature="e#0#32#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="xsdetail_audit_table.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/wzjt/templates/wzjt/xsdetail_audit_table.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="204">
-              <caret line="737" column="33" lean-forward="true" selection-start-line="737" selection-start-column="33" selection-end-line="737" selection-end-column="33" />
+            <state relative-caret-position="337">
+              <caret line="738" column="57" lean-forward="true" selection-start-line="738" selection-start-column="57" selection-end-line="738" selection-end-column="57" />
             </state>
           </provider>
         </entry>
@@ -148,8 +157,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="CSS File" />
-        <option value="Python Script" />
         <option value="JavaScript File" />
+        <option value="Python Script" />
       </list>
     </option>
   </component>
@@ -200,8 +209,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/rbac/service/init_permission.py" />
-        <option value="$PROJECT_DIR$/xsqd/templates/xsqd/index.html" />
         <option value="$PROJECT_DIR$/wzjt/templates/wzjt/data/menudata.js" />
         <option value="$PROJECT_DIR$/wzjt/static/src/menu/sidemenu.js" />
         <option value="$PROJECT_DIR$/wzjt/static/data/menudata.js" />
@@ -239,18 +246,20 @@
         <option value="$PROJECT_DIR$/rbac/templates/rbac/base.html" />
         <option value="$PROJECT_DIR$/rbac/static/assets/js/base.js" />
         <option value="$PROJECT_DIR$/wzjt/wz_pack/vehicle.py" />
-        <option value="$PROJECT_DIR$/rbac/views.py" />
         <option value="$PROJECT_DIR$/rbac/urls.py" />
         <option value="$PROJECT_DIR$/rbac/templates/rbac/user_table.html" />
         <option value="$PROJECT_DIR$/wzjt/static/wzjs/jquery-migrate.min.js" />
         <option value="$PROJECT_DIR$/wzjt/templates/wzjt/xsdetail_settlement_table.html" />
         <option value="$PROJECT_DIR$/wz_xsqd/settings.py" />
         <option value="$PROJECT_DIR$/wzjt/static/wzjs/Test.js" />
-        <option value="$PROJECT_DIR$/wzjt/wz_pack/detail.py" />
         <option value="$PROJECT_DIR$/wzjt/wz_pack/detail_lib.py" />
         <option value="$PROJECT_DIR$/wzjt/static/wzjs/detail.js" />
         <option value="$PROJECT_DIR$/wzjt/templates/wzjt/xsdetail_add_table.html" />
         <option value="$PROJECT_DIR$/wzjt/templates/wzjt/xsdetail_audit_table.html" />
+        <option value="$PROJECT_DIR$/rbac/service/auth_login.py" />
+        <option value="$PROJECT_DIR$/rbac/views.py" />
+        <option value="$PROJECT_DIR$/wzjt/wz_pack/auth_login.py" />
+        <option value="$PROJECT_DIR$/wzjt/wz_pack/detail.py" />
       </list>
     </option>
   </component>
@@ -264,8 +273,8 @@
     <packageJsonPaths />
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-8" />
-    <option name="y" value="-8" />
+    <option name="x" value="488" />
+    <option name="y" value="18" />
     <option name="width" value="782" />
     <option name="height" value="735" />
   </component>
@@ -285,32 +294,23 @@
             <path>
               <item name="wz_xsqd" type="b2602c69:ProjectViewProjectNode" />
               <item name="wz_xsqd" type="462c0819:PsiDirectoryNode" />
-              <item name="wzjt" type="462c0819:PsiDirectoryNode" />
+              <item name="rbac" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="wz_xsqd" type="b2602c69:ProjectViewProjectNode" />
               <item name="wz_xsqd" type="462c0819:PsiDirectoryNode" />
-              <item name="wzjt" type="462c0819:PsiDirectoryNode" />
-              <item name="static" type="462c0819:PsiDirectoryNode" />
+              <item name="rbac" type="462c0819:PsiDirectoryNode" />
+              <item name="middleware" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="wz_xsqd" type="b2602c69:ProjectViewProjectNode" />
               <item name="wz_xsqd" type="462c0819:PsiDirectoryNode" />
-              <item name="wzjt" type="462c0819:PsiDirectoryNode" />
-              <item name="static" type="462c0819:PsiDirectoryNode" />
-              <item name="wzjs" type="462c0819:PsiDirectoryNode" />
+              <item name="rbac" type="462c0819:PsiDirectoryNode" />
+              <item name="service" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="wz_xsqd" type="b2602c69:ProjectViewProjectNode" />
               <item name="wz_xsqd" type="462c0819:PsiDirectoryNode" />
-              <item name="wzjt" type="462c0819:PsiDirectoryNode" />
-              <item name="templates" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="wz_xsqd" type="b2602c69:ProjectViewProjectNode" />
-              <item name="wz_xsqd" type="462c0819:PsiDirectoryNode" />
-              <item name="wzjt" type="462c0819:PsiDirectoryNode" />
-              <item name="templates" type="462c0819:PsiDirectoryNode" />
               <item name="wzjt" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -336,19 +336,19 @@
     <property name="settings.editor.selected.configurable" value="vcs.Git" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="D:\wz_xsqd\wzjt\static\wzjs" />
-      <recent name="D:\wz_xsqd\wz_xsqd" />
-      <recent name="D:\wz_xsqd\wzjt\templates\wzjt" />
-      <recent name="D:\wz_xsqd\wzjt\static" />
-      <recent name="D:\wz_xsqd\xsqd\templates\xsqd" />
-    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="D:\wz_xsqd\wzjt\static\wzjs" />
       <recent name="D:\wz_xsqd\rbac\templates\rbac" />
       <recent name="D:\wz_xsqd\wzjt\templates\wzjt" />
       <recent name="D:\wz_xsqd\wzjt\wz_pack" />
       <recent name="D:\wz_xsqd\rbac\static\assets\js" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\wz_xsqd\wzjt\wz_pack" />
+      <recent name="D:\wz_xsqd\wzjt\static\wzjs" />
+      <recent name="D:\wz_xsqd\wz_xsqd" />
+      <recent name="D:\wz_xsqd\wzjt\templates\wzjt" />
+      <recent name="D:\wz_xsqd\wzjt\static" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -490,7 +490,14 @@
       <option name="project" value="LOCAL" />
       <updated>1537172099433</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="add print">
+      <created>1537239201180</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1537239201180</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TodoView">
@@ -503,7 +510,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1382" height="744" extended-state="7" />
+    <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32843137" />
@@ -511,9 +518,9 @@
       <window_info anchor="bottom" id="Database Changes" order="9" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="8" />
       <window_info anchor="bottom" id="Python Console" order="10" weight="0.32843137" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.88880485" visible="true" weight="0.30153322" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.88880485" visible="true" weight="0.20272572" />
       <window_info anchor="bottom" id="Terminal" order="11" weight="0.27941176" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.2322239" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.23600605" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="right" id="Database" order="3" weight="0.32980332" />
       <window_info anchor="right" id="SciView" order="4" />
@@ -532,24 +539,24 @@
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info id="Favorites" order="2" side_tool="true" />
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.2700454" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32843137" />
+      <window_info anchor="bottom" id="Version Control" order="8" />
       <window_info anchor="bottom" id="Run" order="2" sideWeight="0.88880485" visible="true" weight="0.2044293" />
-      <window_info anchor="bottom" id="Python Console" order="10" weight="0.32843137" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.16666667" />
       <window_info anchor="right" id="Database" order="3" weight="0.32980332" />
       <window_info anchor="bottom" id="Terminal" order="11" weight="0.27941176" />
       <window_info anchor="bottom" id="Event Log" order="12" sideWeight="0.11119516" side_tool="true" weight="0.21078432" />
       <window_info anchor="bottom" id="Database Changes" order="9" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Version Control" order="8" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="right" id="SciView" order="4" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.2009804" />
-      <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info anchor="bottom" id="Python Console" order="10" weight="0.32843137" />
     </layout-to-restore>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -576,15 +583,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/rbac/static/assets/images/gallery/thumb-1.jpg">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rbac/static/assets/images/gallery/image-6.jpg">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rbac/static/assets/images/gallery/image-4.jpg">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/rbac/static/assets/images/gallery/image-3.jpg">
       <provider selected="true" editor-type-id="images" />
     </entry>
@@ -648,13 +646,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/wzjt/wz_pack/pycrypto.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="34" column="52" lean-forward="true" selection-start-line="34" selection-start-column="52" selection-end-line="34" selection-end-column="52" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/rbac/templates/rbac/base.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="3990">
@@ -708,13 +699,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="160">
           <caret line="18" lean-forward="true" selection-start-line="18" selection-end-line="18" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rbac/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="19">
-          <caret line="24" column="13" selection-start-line="24" selection-start-column="13" selection-end-line="24" selection-end-column="13" />
         </state>
       </provider>
     </entry>
@@ -796,75 +780,108 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/wzjt/static/wzjs/detail_audit.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="19">
+        <state relative-caret-position="5643">
           <caret line="297" column="26" selection-start-line="297" selection-start-column="26" selection-end-line="297" selection-end-column="26" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/wz_xsqd/settings.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="167">
-          <caret line="178" column="8" lean-forward="true" selection-start-line="178" selection-start-column="8" selection-end-line="178" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wzjt/wz_pack/detail_lib.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="319">
-          <caret line="62" column="8" selection-start-line="62" selection-start-column="8" selection-end-line="62" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wzjt/wz_pack/detail.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-3230">
-          <caret line="214" column="39" selection-start-line="214" selection-start-column="30" selection-end-line="214" selection-end-column="43" />
+        <state relative-caret-position="3382">
+          <caret line="178" column="8" selection-start-line="178" selection-start-column="8" selection-end-line="178" selection-end-column="8" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/wzjt/static/wzjs/jQuery.print.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="152">
+        <state relative-caret-position="1729">
           <caret line="95" column="22" selection-start-line="95" selection-start-column="12" selection-end-line="95" selection-end-column="22" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/wzjt/static/wzjs/detail.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-240">
-          <caret line="433" column="21" lean-forward="true" selection-start-line="433" selection-start-column="21" selection-end-line="433" selection-end-column="21" />
-          <folding>
-            <element signature="n#!!block;n#createSelect#0" />
-            <element signature="n#!!block;n#detail_subtotal#0" />
-            <element signature="n#!!block;n#dkzj_sum#0" />
-            <element signature="n#!!block;n#detail_skzj_diff#0" />
-            <element signature="n#!!block;n#detail_zhihbt#0" />
-            <element signature="n#!!block;n#submit_add_detail#0" />
-            <element signature="n#!!block;n#submit_edit_detail#0" />
-            <element signature="n#!!block;n#submit_del_detail#0" />
-            <element signature="n#!!block;n#submit_withdraw_detail#0" />
-            <element signature="n#!!block;n#hide_show_model#0" />
-            <element signature="n#!!block;n#get_vehicle_card#0" />
-            <element signature="n#!!block;n#hiddenShowTr#0" />
-            <element signature="n#!!block;n#print_detail#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wzjt/templates/wzjt/xsdetail_add_table.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="318">
-          <caret line="747" column="44" lean-forward="true" selection-start-line="747" selection-start-column="44" selection-end-line="747" selection-end-column="44" />
-          <folding>
-            <element signature="e#25027#25107#0#HTML" expanded="true" />
-          </folding>
+        <state relative-caret-position="8227">
+          <caret line="433" column="21" selection-start-line="433" selection-start-column="21" selection-end-line="433" selection-end-column="21" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/wzjt/templates/wzjt/xsdetail_audit_table.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="737" column="33" lean-forward="true" selection-start-line="737" selection-start-column="33" selection-end-line="737" selection-end-column="33" />
+        <state relative-caret-position="337">
+          <caret line="738" column="57" lean-forward="true" selection-start-line="738" selection-start-column="57" selection-end-line="738" selection-end-column="57" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wzjt/wz_pack/pycrypto.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="425">
+          <caret line="34" column="52" lean-forward="true" selection-start-line="34" selection-start-column="52" selection-end-line="34" selection-end-column="52" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rbac/service/init_permission.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wzjt/templates/wzjt/xsdetail_add_table.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="323">
+          <caret line="151" column="29" lean-forward="true" selection-start-line="151" selection-start-column="29" selection-end-line="151" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wzjt/wz_pack/auth_login.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="182">
+          <caret line="16" column="45" lean-forward="true" selection-start-line="16" selection-start-column="45" selection-end-line="16" selection-end-column="45" />
+          <folding>
+            <element signature="e#7#39#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rbac/middleware/rbac.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret selection-end-line="2" selection-end-column="9" />
+          <folding>
+            <element signature="e#0#32#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rbac/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-2554">
+          <caret line="106" column="22" lean-forward="true" selection-start-line="106" selection-start-column="22" selection-end-line="106" selection-end-column="22" />
+          <folding>
+            <element signature="e#0#32#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wzjt/wz_pack/detail.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="190">
+          <caret line="404" column="22" lean-forward="true" selection-start-line="404" selection-start-column="22" selection-end-line="404" selection-end-column="22" />
+          <folding>
+            <element signature="e#0#47#0" expanded="true" />
+            <element signature="e#164#2875#0" />
+            <element signature="e#2920#4095#1" />
+            <element signature="e#13742#13812#1" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wzjt/wz_pack/detail_lib.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="171">
+          <caret line="109" lean-forward="true" selection-start-line="109" selection-end-line="109" />
+          <folding>
+            <element signature="e#104#809#0" />
+            <element signature="e#854#5350#0" />
+            <element signature="e#5393#9613#0" />
+          </folding>
         </state>
       </provider>
     </entry>

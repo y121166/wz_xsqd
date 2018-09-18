@@ -6,6 +6,7 @@ import json
 from rbac.service.init_permission import init_permission
 from django.http import JsonResponse
 from wzjt.wz_pack.pycrypto import *
+from wzjt.wz_pack.auth_login import auth
 
 
 # Create your views here.
@@ -97,6 +98,7 @@ def user_view(request, nid):
 
 
 # 用户修改保存URL
+@auth
 def user_Edit(request):
     id = request.POST.get("id")
     last_name = request.POST.get("last_name")
@@ -116,6 +118,7 @@ def user_Edit(request):
 
 
 # 用户删除URL
+@auth
 def user_del(request, nid):
     id = nid
     response_data = {}
@@ -149,6 +152,7 @@ def dep_table(request):
 
 
 # 部门列表详情
+@auth
 def dep_view(request, nid):
     dep_obj = list(Department.objects.filter(id=nid).all().values('id', 'title', 'dep_code'))
     response_data = {}
@@ -163,6 +167,7 @@ def dep_view(request, nid):
 
 
 # 部门修改保存
+@auth
 def dep_edit(request):
     id = request.POST.get("id")
     title = request.POST.get("title")
@@ -177,6 +182,7 @@ def dep_edit(request):
 
 
 # 部门删除URL
+@auth
 def dep_del(request, nid):
     id = nid
     response_data = {}
@@ -216,6 +222,7 @@ def user_init_select(request):
 
 
 # 密码修改
+@auth
 def edit_psw(request):
     user_id = request.session['user_id']
     req_old_psw = request.POST.get('old_psw')

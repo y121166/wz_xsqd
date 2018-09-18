@@ -1,6 +1,7 @@
 from rbac.models import DetailInfo, VehicleInfo
 from .detail_lib import detail_create,detail_edit
 import datetime
+from .auth_login import auth
 
 
 # DataTable获取订单List
@@ -73,6 +74,7 @@ def get_cx_tj(request):
 
 
 # 订单详情
+@auth
 def info_detail(request, nid):
     """
     values_map = map{
@@ -198,6 +200,7 @@ def info_detail(request, nid):
 
 
 # 增加订单
+@auth
 def add_detail(request):
     dep_id = request.session['dep_id']  # 当前访问部门ID
     vin_id = request.POST.get("vehicle_vin_id")
@@ -237,6 +240,7 @@ def add_detail(request):
 
 
 # 修改订单信息
+@auth
 def edit_detail(request):
     user_id = request.session['user_id']  # 当前访问部门ID
     user_name = request.session['username']  # 当前访问部门ID
@@ -292,6 +296,7 @@ def edit_detail(request):
 
 
 # 作废订单
+@auth
 def del_detail(request):
     response_data = {}
     id = request.POST.get("id")
@@ -320,6 +325,7 @@ def del_detail(request):
 
 
 # 撤回订单
+@auth
 def withdraw_detail(request):
     response_data = {}
     id = request.POST.get("id")
@@ -346,6 +352,7 @@ def withdraw_detail(request):
 
 
 # 审核订单
+@auth
 def audit_detail(request):
     """
     审核订单信息
@@ -388,6 +395,7 @@ def audit_detail(request):
 
 
 # 结算订单
+@auth
 def settlement_detail(request):
     """
     结算订单信息
