@@ -188,6 +188,12 @@
                 "columnDefs":[
                     //转义订单状态
                     {
+                        targets:2,
+                        render:function (data,type,row) {
+                            return '<a href="#modal-view"  data-toggle="modal"  data_id="info_detail-'+row.id+'"  name="detail_audit" >'+ row.order_no + '</a>'
+                        }
+                    },
+                    {
                         targets:7,
                         render:function (data,type,row) {
                             var status_value;
@@ -238,7 +244,19 @@
                             }
                             return caoz_html;
                         }
-                    }],
+                    },
+                    {
+                        targets:-3,
+                        render:function (data,type,row) {
+                            var submit_date = '';
+                            submit_date = row.submit_date;
+                            var date = submit_date.substring(0,10);
+                            var time = submit_date.substring(11,19);
+                            submit_date = date + " " + time;
+                            return submit_date;
+                        }
+                    },
+                ],
                 "createdRow": function(row, data, index) {
                         $(row).data('id',data.id);
                         $(row).find('.icheckbox_minimal').first().val(data.id);

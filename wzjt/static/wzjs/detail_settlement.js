@@ -154,6 +154,7 @@
                 "searching":false,
                 "serverSide": true,
                 "processing": true,
+                "autoWidth":false,
                 "dom":'<"row"<"toolbar col-sm-6"><"col-sm-6 text-right"l>>'+
                         '<"row"<tr>>'+
                         '<"row"<"col-sm-6"i><"col-sm-6"p>>',
@@ -168,8 +169,9 @@
                         return param;
                     },
                 },
+                "colReorder":true,
                 "columns": [
-                    { "data":""},
+                    { "data":"","width":"1%","targets": 0},
                     {
                         "data":"",
                         render:function (data,type,row,meta) {
@@ -191,6 +193,12 @@
                 //对table格式的定义（表格的列从0开始）
                 "columnDefs":[
                     //转义订单状态
+                    {
+                        targets:2,
+                        render:function (data,type,row) {
+                            return '<a href="#modal-view"  data-toggle="modal"  data_id="info_detail-'+row.id+'"  name="detail_audit" >'+ row.order_no + '</a>'
+                        }
+                    },
                     {
                         targets:7,
                         render:function (data,type,row) {
@@ -239,7 +247,19 @@
                             }
                             return caoz_html;
                         }
-                    }],
+                    },
+                    {
+                        targets:-3,
+                        render:function (data,type,row) {
+                            var submit_date = '';
+                            submit_date = row.submit_date;
+                            var date = submit_date.substring(0,10);
+                            var time = submit_date.substring(11,19);
+                            submit_date = date + " " + time;
+                            return submit_date;
+                        }
+                    },
+                ],
                 "createdRow": function(row, data, index) {
                         $(row).data('id',data.id);
                         $(row).find('.icheckbox_minimal').first().val(data.id);

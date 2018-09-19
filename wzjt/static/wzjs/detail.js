@@ -550,6 +550,18 @@
                 "columnDefs":[
                     //转义订单状态
                     {
+                        targets:0,
+                        className: "center",
+                        data: null,
+                        defaultContent:'<input type ="checkbox" name="test" class="icheckbox_minimal" value="">',
+                    },
+                    {
+                        targets:2,
+                        render:function (data,type,row) {
+                            return '<a href="#modal-view"  data-toggle="modal"  data_id="info_detail-'+row.id+'"  name="detail_view" >'+ row.order_no + '</a>'
+                        }
+                    },
+                    {
                         targets:7,
                         render:function (data,type,row) {
                             var status_value;
@@ -572,12 +584,6 @@
                             }
                             return status_value;
                         }
-                    },
-                    {
-                        className: "center",
-                        targets:0,
-                        data: null,
-                        defaultContent:'<input type ="checkbox" name="test" class="icheckbox_minimal" value="">',
                     },
                     {
                         targets:-1, //这一列是id，但是不想再前端显示，"visible": false,表示隐藏
