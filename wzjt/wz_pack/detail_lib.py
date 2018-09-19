@@ -1,6 +1,7 @@
 from rbac.models import DetailMaxNo, Department
 import datetime
 
+
 # 生成最大订单NO
 def get_max_no(dep_id):
     """

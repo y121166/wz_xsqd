@@ -1,4 +1,5 @@
 from rbac.models import VehicleInfo
+from .auth_login import auth
 
 
 # DataTable获取车辆List
@@ -38,6 +39,7 @@ def get_cx_tj(request):
 
 
 # 增加车辆信息
+@auth
 def add_vehicle(request):
     vin = request.POST.get("vin")
     vehicle_type = request.POST.get("vehicle_type")
@@ -64,6 +66,7 @@ def add_vehicle(request):
 
 
 # 修改车辆信息
+@auth
 def edit_vehicle(request):
     dep_id = request.session['dep_id']
     id = request.POST.get("id")
@@ -97,6 +100,7 @@ def edit_vehicle(request):
 
 
 # 删除车辆信息
+@auth
 def del_vehicle(request):
     response_data = {}
     id = request.POST.get("id")
@@ -121,7 +125,7 @@ def del_vehicle(request):
     return response_data
 
 
-# get_vehicel_vin
+# 返回车辆VIN get_vehicel_vin
 def get_vehicel_vin(request):
     vin = request.POST.get("vin")
     dep_id = request.session['dep_id']
