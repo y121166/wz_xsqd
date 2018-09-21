@@ -196,7 +196,7 @@
                     {
                         targets:2,
                         render:function (data,type,row) {
-                            return '<a href="#modal-view"  data-toggle="modal"  data_id="info_detail-'+row.id+'"  name="detail_audit" >'+ row.order_no + '</a>'
+                            return '<a href="#modal-settlement"  data-toggle="modal"  data_id="info_detail-'+row.id+'"  name="detail_audit" >'+ row.order_no + '</a>';
                         }
                     },
                     {
@@ -230,9 +230,6 @@
                             switch (row.status){
                                 case(2):
                                     caoz_html = '<div class="visible-md visible-lg hidden-sm hidden-xs action-buttons">\n' +
-                                        '<a class="blue" href="#modal-view" data-toggle="modal" title="详情" data_id="info_detail-'+row.id+'" name="detail_audit" >\n' +
-                                        '<i class="icon-zoom-in bigger-130"></i>\n' +
-                                        '</a>'+
                                         '<a class="red" href="#modal-settlement" data-toggle="modal" title="订单结算" data_id="info_detail-'+row.id+'" name="detail_audit" >' +
                                         '<i class="icon-flag bigger-130"></i>' +
                                         '</a>' +
@@ -295,8 +292,8 @@
                 });
             });
 
-            //table 批量审核按钮
-            $("div.toolbar").html('<button class="btn btn-xs btn-primary" onclick="">批量审核</button>');
+            //table 批量提交按钮
+            $("div.toolbar").html('<button class="btn btn-xs btn-primary" onclick="">批量结算</button>');
 
             //实现全选功能
             $("#all_checked").click(function(){

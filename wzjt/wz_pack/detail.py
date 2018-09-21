@@ -351,7 +351,7 @@ def withdraw_detail(request):
     return response_data
 
 
-# 审核订单
+# 审核订单提交
 @auth
 def audit_detail(request):
     """
@@ -394,7 +394,7 @@ def audit_detail(request):
     return response_data
 
 
-# 结算订单
+# 结算订单提交
 @auth
 def settlement_detail(request):
     """
