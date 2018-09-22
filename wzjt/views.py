@@ -3,7 +3,7 @@ from rbac.models import VehicleInfo, UserInfo, Department
 from django.http import JsonResponse
 from wzjt.wz_pack import vehicle
 from wzjt.wz_pack import detail
-from django.http import HttpResponse
+from wzjt.wz_pack.auth_login import auth
 
 
 # Create your views here.
@@ -72,6 +72,7 @@ def detail_page(request):
 
 
 # 订单审批列表
+@auth
 def detail_audit_page(request):
     return render(request, 'wzjt/xsdetail_audit_table.html')
 
@@ -124,6 +125,7 @@ def audit_detail(request):
     return JsonResponse(response_data, safe=False)
 
 
+ # 结算订单
 def settlement_detail(request):
     response_data = detail.settlement_detail(request)
     return JsonResponse(response_data, safe=False)

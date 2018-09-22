@@ -105,6 +105,7 @@ def detail_create(request):
         # 应收款项
         data["ysk_xx"] = data["security_deposit"]+data["replacement_subsidy"] + data["yp_ysk_xj"] + data["jr_ysk_xj"] +  data["bx_ysk_xj"] + data["zzb_ysk_xj"]
         data["skzj_xx"] = data["ysk_xx"] - data["deductions_xj"]
+        # 贷款金额
         data["dkje_xx"] = data["transaction_price"] - data["first_payment"]
         return data
 

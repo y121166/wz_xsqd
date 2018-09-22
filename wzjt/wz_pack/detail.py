@@ -5,6 +5,7 @@ from .auth_login import auth
 
 
 # DataTable获取订单List
+
 def get_cx_tj(request):
     draw = request.POST.get("draw")  # 第几次访问
     dep_id = request.session['dep_id']  # 当前访问部门ID

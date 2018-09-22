@@ -26,10 +26,10 @@
             //贷款合计
             if ($(obj).attr("name") == 'payment_way' || $(obj).attr("name") == 'transaction_price' || $(obj).attr("name") == 'first_payment') {
 
-                if($(table_id+" select[name='payment_way']").val() != 0) {
+                if($(table_id + " select[name='payment_way']").val() != 0) {
                     dkzj_sum(table_id);//贷款项合计
                 }else {
-                $(table_id+" span[name='dk_sm']").html(0);
+                $(table_id+" span[name='dkje_xx']").html(0);
                 }
             }
 
@@ -63,10 +63,10 @@
                 var dkzj_sum = 0;
                 var transaction_price = parseFloat($(table_id + " input[name='transaction_price']").val());
                 var first_payment = parseFloat($(table_id + " input[name='first_payment']").val());
-                if(transaction_price != 0){
+                if(transaction_price != 0 && first_payment != 0){
                     dkzj_sum = transaction_price - first_payment;
                 }
-                $(table_id+" span[name='dk_sm']").html(dkzj_sum.toFixed(2));
+                $(table_id+" span[name='dkje_xx']").html(dkzj_sum.toFixed(2));
         }
 
         //收款总计
@@ -142,11 +142,11 @@
                         span_val = chineseNumber(detail_info_data.skzj_xx);
                     }
                     //贷款总计
-                    if(span_name == "dk_sm"){
-                        if(detail_info_data.payment_way != 0){
-                            span_val = detail_info_data.transaction_price - detail_info_data.first_payment;
-                        }
-                    }
+                    // if(span_name == "dkje_xx"){
+                    //     if(detail_info_data.payment_way != 0){
+                    //         span_val = detail_info_data.transaction_price - detail_info_data.first_payment;
+                    //     }
+                    // }
                     //订单ID
                     if(span_name =="order_id"){
                         span_val = detail_info_data.id;
@@ -189,7 +189,7 @@
                         span_val = chineseNumber(detail_info_data.skzj_xx);
                     }
                     //贷款总计
-                    if(span_name == "dk_sm"){
+                    if(span_name == "dkje_xx"){
                         if(detail_info_data.payment_way != 0){
                             span_val = detail_info_data.transaction_price - detail_info_data.first_payment;
                         }
