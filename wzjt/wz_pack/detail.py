@@ -34,7 +34,7 @@ def get_cx_tj(request):
         kwargs["report_name"] = user_id
     if this_page == 'audit':
         if roles_id == role_xsjl:  # 销售经理
-            status_list = [1]
+            status_list = [1, 2]
             kwargs["department"] = dep_id
     if this_page == 'settlement':
         if roles_id == role_cwsk:  # 财务收款

@@ -82,7 +82,8 @@ def detail_settlement_page(request):
     return render(request, 'wzjt/xsdetail_settlement_table.html')
 
 
-# ajax初始化车辆列表
+# ajax初始化订单列表
+@auth
 def return_detail_list(request):
     detail_list = detail.get_cx_tj(request)
     return JsonResponse(detail_list, safe=False, json_dumps_params={'ensure_ascii': False})

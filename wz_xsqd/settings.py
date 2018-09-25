@@ -125,7 +125,7 @@ STATIC_URL = '/static/'
 
 # session设置
 SESSION_COOKIE_AGE = 60 * 60  # 失效时间
-SESSION_SAVE_EVERY_REQUEST = True
+SESSION_SAVE_EVERY_REQUEST = True  # 超时时间按照每次访问之后开启计算
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True  # 关闭浏览器，则COOKIE失效
 
 # 定义session 键：

@@ -43,12 +43,13 @@
         function detail_ysk_sum(table_id) {
             var sum = 0;
             var num = 0;
-            if($(table_id + " .detail_fkfs").val() != 0){
+
+            if($(table_id + " select[name='payment_way']").val() == 1){ //分期
                 $(table_id + " .fenq").each(function () {
                     num = parseFloat($(this).val());
                     sum = sum + num;
                  });
-            }else {
+            }else { //非分期
                 $(table_id + " .quank").each(function () {
                     num = parseFloat($(this).val());
                     sum = sum + num;
@@ -190,7 +191,7 @@
                     }
                     //贷款总计
                     if(span_name == "dkje_xx"){
-                        if(detail_info_data.payment_way != 0){
+                        if(detail_info_data.payment_way == 1){
                             span_val = detail_info_data.transaction_price - detail_info_data.first_payment;
                         }
                     }
@@ -206,7 +207,7 @@
                     if($(this).prop("tagName") == 'SELECT'){
                         //console.log(span_val);
                         $(this).val(span_val);
-                        if(detail_info_data['payment_way'] != 0){
+                        if(detail_info_data['payment_way'] == 1){
                             hiddenShowTr(this);
                         }
                     }
@@ -407,7 +408,7 @@
         function hiddenShowTr(obj){
             var table_id = '#' + $(obj).parents('table').attr("id");
             //console.log($(table_id + " .detail_fkfs").val());
-           if($(table_id + " .detail_fkfs").val() == 0){
+           if($(table_id + " .detail_fkfs").val() != 1){
                $(table_id + " .detail_fkqs").val(0);
                $(table_id + " .detail_fkqs").hide();
                $(table_id + " .detail_jr").hide();
@@ -710,7 +711,7 @@
                 }
             });
 
-            //根据付款方式隐藏期数
+            //根据付款方式隐藏期数,分期
             $(".detail_fkfs").on("click",function () {
                 hiddenShowTr(this);
                 detail_subtotal(this);

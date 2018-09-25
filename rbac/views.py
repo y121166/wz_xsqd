@@ -41,9 +41,11 @@ def index(request):
 
 
 # 退出
+@auth
 def logout(request):
-    del request.session['username']
-    del request.session[settings.SESSION_PERMISSION_URL_KEY]
+    request.session.clear()
+    # del request.session['username']
+    # del request.session[settings.SESSION_PERMISSION_URL_KEY]
     return redirect('/rbac/index/')
 
 

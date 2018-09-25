@@ -81,12 +81,11 @@ def detail_create(request):
     data["zzb_ysk_xj"] = data["value_added_package"]+data["maintenance_package"]
     data["deductions_xj"] = data["esc_potential_price"]+data["esc_procurement_price"]+data["earnest_money"]
 
-    if data["payment_way"] == 0:
+    if data["payment_way"] != 1:
         # 全款
         # 应收款
         data["ysk_xx"] =data["lc_ysk_xj"]+data["yp_ysk_xj"]+data["bx_ysk_xj"]+data["zzb_ysk_xj"]
         data["skzj_xx"] = data["ysk_xx"] - data["deductions_xj"]
-        return data
     else:
         # 分期
         # 金融
@@ -108,7 +107,7 @@ def detail_create(request):
         data["skzj_xx"] = data["ysk_xx"] - data["deductions_xj"]
         # 贷款金额
         data["dkje_xx"] = data["transaction_price"] - data["first_payment"]
-        return data
+    return data
 
 
 # 订单修改数据项
@@ -162,12 +161,11 @@ def detail_edit(request):
     data["zzb_ysk_xj"] = data["value_added_package"]+data["maintenance_package"]
     data["deductions_xj"] = data["esc_potential_price"]+data["esc_procurement_price"]+data["earnest_money"]
 
-    if data["payment_way"] == 0:
+    if data["payment_way"] != 1:
         # 全款
         # 应收款
-        data["ysk_xx"] =data["lc_ysk_xj"]+data["yp_ysk_xj"]+data["bx_ysk_xj"]+data["zzb_ysk_xj"]
+        data["ysk_xx"] = data["lc_ysk_xj"]+data["yp_ysk_xj"]+data["bx_ysk_xj"]+data["zzb_ysk_xj"]
         data["skzj_xx"] = data["ysk_xx"] - data["deductions_xj"]
-        return data
     else:
         # 分期
         # 金融
@@ -188,4 +186,4 @@ def detail_edit(request):
         data["ysk_xx"] = data["security_deposit"]+data["replacement_subsidy"] + data["yp_ysk_xj"] + data["jr_ysk_xj"] +  data["bx_ysk_xj"] + data["zzb_ysk_xj"]
         data["skzj_xx"] = data["ysk_xx"] - data["deductions_xj"]
         data["dkje_xx"] = data["transaction_price"] - data["first_payment"]
-        return data
+    return data
