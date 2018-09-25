@@ -63,7 +63,7 @@ def get_cx_tj(request):
                                                                            'customer_area', 'status',
                                                                            'vehicle__vehicle_type',
                                                                            'remark',
-                                                                           'report_name__last_name', 'settlement_name__last_name', 'auditing_name__last_name',
+                                                                           'sales_consultant', 'auditing_name__last_name',
                                                                            'submit_date', 'auditing_date', 'settlement_date'))[start:end]
     # print(recordsTotal)
     get_dic['draw'] = draw
@@ -180,7 +180,8 @@ def info_detail(request, nid):
         "ysk_xx",
         "deductions_xj",
         "skzj_xx",
-        "dkje_xx"
+        "dkje_xx",
+        "sales_consultant"
     ]
     response_data = {}
     try:

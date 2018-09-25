@@ -150,6 +150,9 @@ class DetailInfo(models.Model):
     department = models.ForeignKey("Department", on_delete=models.ProtectedError)  # 所属部门
     remark = models.CharField(max_length=128, null=True, blank=True)  # 备注
     report_name = models.ForeignKey("UserInfo", related_name="report_UserInfo", on_delete=models.ProtectedError)  # 填报人
+
+    sales_consultant = models.CharField(max_length=100, null=True, blank=True)  # 销售顾问
+
     auditing_name = models.ForeignKey("UserInfo", related_name="auditing_UserInfo", null=True, blank=True,
                                       on_delete=models.ProtectedError)  # 审核人
     settlement_name = models.ForeignKey("UserInfo", related_name="settlement_UserInfo", null=True, blank=True,

@@ -68,6 +68,7 @@ def detail_create(request):
     # 基本信息
     data["department_id"] = request.session['dep_id']  # 所属部门0
     data["report_name_id"] = request.session['user_id']  # 填报人0
+    data["sales_consultant"] = request.POST.get("sales_consultant")  # 销售顾问
 
     # 后台生成字段
     data["submit_date"] = datetime.datetime.now()  # 提交日期
@@ -147,6 +148,9 @@ def detail_edit(request):
     data["esc_potential_price"] = float(request.POST.get("esc_potential_price"))  # 二手车评估价格0
     data["esc_procurement_price"] = float(request.POST.get("esc_procurement_price"))  # 二手车收购价格0
     data["earnest_money"] = float(request.POST.get("earnest_money"))  # 已收定金0
+
+    # 基本信息
+    data["sales_consultant"] = request.POST.get("sales_consultant")  # 销售顾问
 
     # 后台生成字段
     data["submit_date"] = datetime.datetime.now()  # 提交日期

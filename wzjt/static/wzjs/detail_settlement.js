@@ -185,7 +185,7 @@
                     { "data": "vehicle__vin" },
                     { "data": "status" },
                     { "data": "order_date" },
-                    { "data": "report_name__last_name" },
+                    { "data": "sales_consultant" },
                     { "data": "submit_date" },
                     { "data": "remark" },
                     { "data": "" }
