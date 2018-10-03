@@ -15,7 +15,7 @@ def login(request):
     if request.method == 'GET':
         return render(request, 'rbac/login.html')
     else:
-        key = PrpCrypt('wzjtwzjtwzjtwzjt')
+        key = PrpCrypt('wzjtwzjtwzjtwzjt') # 密码加密key
         username = request.POST.get('username')
         password = request.POST.get('password')
         password = key.encrypt(password)

@@ -426,9 +426,9 @@
         function print_detail(){
             $(".modal_view").print({
                 deferred: $.Deferred(),
-                iframe:false,
-                append:null,
-                prepend:null,
+                iframe:true,
+                append:'<div><h1>append添加</h1></div>',
+                prepend:'<div><h1>prepend添加</h1></div>',
             });
         }
 
