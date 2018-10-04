@@ -174,7 +174,7 @@ SAFE_URL = [
     '/wzjt/audit_detail/',  # 审核订单
     '/wzjt/settlement_detail/',  # 结算订单
    # '/wzjt/.*',
-    # '^/rbac/',
+   # '^/rbac/',
 ]
 
 # 启用日志中心

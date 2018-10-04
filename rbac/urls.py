@@ -23,5 +23,4 @@ urlpatterns = [
     url(r'^dep_edit/$', views.dep_edit, name='dep_edit'),
     url(r'^dep_del-(?P<nid>\d+)/$', views.dep_del, name='dep_del'),
 
-
 ]

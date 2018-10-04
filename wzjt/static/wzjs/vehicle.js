@@ -254,17 +254,18 @@
                 submit_edit_vehicle(vehicle_table);
             });
 
-            //根据VIN号，计算六位码
+            //根据VIN号，计算车架号
+            /*
             $("#add_vin,#vin").on('blur',function () {
                 if(this.id == "add_vin"){
                     $("#add_six_yards").val($("#add_vin").val().substr(-6,6));
                 }else{
                     $("#six_yards").val($("#vin").val().substr(-6,6));
                 }
-            });
+            });*/
 
             //初始化select值
-            $.get("/rbac/init_select/",function (data) {
+            $.get("/rbac/user_init_select/",function (data) {
                 var dep_info = eval(data.depinfo);
                 createSelect(dep_info, ".dep_select");
             });
