@@ -52,6 +52,7 @@ def get_structure_data(request):
         # 添加两个状态：显示 和 展开
         url['status'] = True
         pattern = url['url']
+
         if re.match(pattern, request_rul):
             url['open'] = True
         else:
@@ -99,6 +100,8 @@ def get_menu_html(menu_data):
     #         <a href="{permission_url}" class="{active}">{permission_title}</a>
     #     """
 
+    list_title_blank = ['库存导入']  # 需新窗口打开的title
+
     option_str = """
             <li>
                 <a href="#" class="dropdown-toggle">
@@ -122,6 +125,15 @@ def get_menu_html(menu_data):
             </li>
         """
 
+    url_str_blank = """
+                <li>
+                    <a href="{permission_url}" target="_blank" class="dropdown-toggle">
+                       <i class ="icon-double-angle-right" > </i>
+                      {permission_title}
+                    </a>
+                </li>
+            """
+
     """
      menu_data = [
         {'id': 1, 'title': '订单管理', 'parent_id': None, 'status': True, 'open': False,
@@ -144,8 +156,12 @@ def get_menu_html(menu_data):
             continue
         else:
             if item.get('url'):  # 说明循环到了菜单最里层的url
-                menu_html += url_str.format(permission_url=item['url'],
-                                            permission_title=item['title'])
+                if item['title'] in list_title_blank:
+                    menu_html += url_str_blank.format(permission_url=item['url'],
+                                                permission_title=item['title'])
+                else:
+                    menu_html += url_str.format(permission_url=item['url'],
+                                                permission_title=item['title'])
             else:
                 menu_html += option_str.format(menu_title=item['title'],
                                                sub_menu=get_menu_html(item['children']))

@@ -10,7 +10,7 @@ def get_cx_tj(request):
     draw = request.POST.get("draw")  # 第几次访问
     dep_id = request.session['dep_id']  # 当前访问部门ID
     roles_id = request.session['roles_id']  # 当前用户角色
-    user_id = request.session['user_id']  # 当前用户角色
+    user_id = request.session['user_id']  # 当前用户ID
     cx_no = request.POST.get("cx_no")  # 订单编码
     cx_status = request.POST.get("cx_status")  # 订单状态
     cx_vin = request.POST.get("cx_vin")  # 车辆VIN
@@ -28,6 +28,9 @@ def get_cx_tj(request):
     get_dic = {}  # return
     kwargs = {}
     status_list = []
+
+    # todo
+    # 获取当前登录用户的权限及部门
 
     if this_page == 'add':
         status_list = [0, 1, 2, 3]

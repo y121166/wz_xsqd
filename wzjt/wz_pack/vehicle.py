@@ -1,5 +1,13 @@
+# -*- coding: utf-8 -*-
 from rbac.models import VehicleInfo
 from .auth_login import auth
+
+# 库存导入文件验证
+from django import forms
+from django.utils.translation import gettext as _
+from django.core.exceptions import ValidationError
+
+import csv
 
 
 # DataTable获取车辆List
@@ -141,3 +149,26 @@ def get_vehicel_vin(request):
         response_data['result'] = 'false'
         response_data['message'] = '获取车辆vin列表失败，请联系管理员！'
     return response_data
+
+
+def validate_excel(value):
+    if value.name.split('.')[-1] not in ['csv']:
+        raise ValidationError(_('Invalid File Type: %(value)s'), params={'value': value}, )
+
+
+class UploadExcelForm(forms.Form):
+    import_excel = forms.FileField(validators=[validate_excel])
+
+
+def vehicle_import(request):
+    response_data = {}
+    form = UploadExcelForm(request.POST, request.FILES)
+
+    if form.is_valid():
+        file = request.FILES.get('import_excel').read()
+        print(list(file))
+        wb = open(request.FILES.get('import_excel'), closefd=False)
+        for i in wb:
+            print(i)
+        response_data['result'] = 'True'
+        return response_data

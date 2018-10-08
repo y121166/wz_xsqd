@@ -60,6 +60,15 @@ def del_vehicle(request):
     return JsonResponse(response_data, safe=False)
 
 
+# 车辆库存导入
+def vehicle_import(request):
+    if request.method == 'GET':
+        return render(request, "wzjt/vehicle_import.html")
+    else:
+        response_data = vehicle.vehicle_import(request)
+        return JsonResponse(response_data, safe=False)
+
+
 # ajax获取车辆vin
 def get_vehicle_vin(request):
     response_data = vehicle.get_vehicel_vin(request)

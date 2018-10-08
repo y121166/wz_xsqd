@@ -80,7 +80,8 @@ class VehicleInfo(models.Model):
     vehicle_type = models.CharField(max_length=128)  # 车型
     guidance_price = models.DecimalField(max_digits=10, decimal_places=2)  # 指导价
     status = models.PositiveSmallIntegerField(default=0)  # 车辆状态，0 待售 1 已售 2 审核中
-    storage_date = models.DateField(auto_now_add=True)  # 入库日期
+    storage_date = models.DateField(auto_now_add=True)  # 录入日期
+    inbound_date = models.DateField()  # 入库日期
     out_date = models.DateField(null=True, blank=True)  # 销售日期
     department = models.ForeignKey("Department", on_delete=models.ProtectedError)  # 所属部门
     remarks = models.CharField(max_length=128, blank=True)  # 备注
