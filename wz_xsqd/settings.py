@@ -26,6 +26,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
+DATA_UPLOAD_MAX_MEMORY_SIZE = 10485760
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -166,6 +168,7 @@ SAFE_URL = [
     '/wzjt/del_vehicle/',  # 删除车辆信息
     '/wzjt/vehicle_info-(?P<nid>\d+)/',  # 车辆详情
     '/wzjt/vehicle_import/',  # 车辆导入
+    '/wzjt/vehicle_down/',  # 车辆导入模板下载
     '/wzjt/get_vehicle_vin/',  # 返回车辆VIN，订单填写VIN使用
     '/wzjt/add_detail/',  # 新增订单
     '/wzjt/edit_detail/',  # 修改订单

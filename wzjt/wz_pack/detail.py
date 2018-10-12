@@ -54,11 +54,12 @@ def get_cx_tj(request):
     kwargs['status__in'] = status_list
 
     if cx_no != "":
-        kwargs['order_no'] = cx_no
+        kwargs['order_no__icontains'] = cx_no
     if cx_vin != "":
-        kwargs['vin'] = cx_vin
+        kwargs['vehicle__vin__icontains'] = cx_vin
 
-    recordsFiltered = recordsTotal = DetailInfo.objects.filter(**kwargs).count()
+    recordsFiltered = recordsTotal = DetailInfo.objects.filter(**kwargs).count()  # 查询数据总数
+    # 生成list
     cx_list = list(
         DetailInfo.objects.filter(**kwargs).order_by("-entry_date").values('id', 'order_no', 'order_date',
                                                                            'vehicle__vin',

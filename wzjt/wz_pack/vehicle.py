@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*-
 from rbac.models import VehicleInfo
 from .auth_login import auth
+from rbac.models import Department
+import datetime
 
 # 库存导入文件验证
-from django import forms
-from django.utils.translation import gettext as _
-from django.core.exceptions import ValidationError
+import json
+
 
 import csv
 
@@ -107,9 +108,13 @@ def edit_vehicle(request):
     return response_data
 
 
-# 删除车辆信息
 @auth
 def del_vehicle(request):
+    """
+    删除车辆信息
+    :param request:
+    :return:
+    """
     response_data = {}
     id = request.POST.get("id")
     dep_id = request.session['dep_id']
@@ -133,8 +138,12 @@ def del_vehicle(request):
     return response_data
 
 
-# 返回车辆VIN get_vehicel_vin
 def get_vehicel_vin(request):
+    """
+    返回车辆VIN get_vehicel_vin
+    :param request:
+    :return:
+    """
     vin = request.POST.get("vin")
     dep_id = request.session['dep_id']
     response_data = {}
@@ -151,24 +160,51 @@ def get_vehicel_vin(request):
     return response_data
 
 
-def validate_excel(value):
-    if value.name.split('.')[-1] not in ['csv']:
-        raise ValidationError(_('Invalid File Type: %(value)s'), params={'value': value}, )
-
-
-class UploadExcelForm(forms.Form):
-    import_excel = forms.FileField(validators=[validate_excel])
-
-
 def vehicle_import(request):
-    response_data = {}
-    form = UploadExcelForm(request.POST, request.FILES)
+    """
+    批量导入车辆信息
+    :param request:
+    :return:
+    """
+    response_data = {}  # result:True,False, msg,all_num ,y_num, n_num, error_list
+    file = json.loads(request.POST.get("data"))  # 加载file，json文件
+    import_set_list = []  # bulk_create批量提交所需数组
+    error_value_list = []  # 重复数据数组
+    all_num = y_num = n_num = 0  # 数据量，所有、成功数、失败数
 
-    if form.is_valid():
-        file = request.FILES.get('import_excel').read()
-        print(list(file))
-        wb = open(request.FILES.get('import_excel'), closefd=False)
-        for i in wb:
-            print(i)
-        response_data['result'] = 'True'
-        return response_data
+    # 获取所有部门数据
+    dep_obj = Department.objects.all()
+    all_num = len(file)
+    # 遍历JSON
+    for key in file:
+        if VehicleInfo.objects.filter(vin=key["车辆vin"]).exists():
+            n_num = n_num + 1
+            error_value_list.append("%s,重复" % key["车辆vin"])
+        else:
+            y_num = y_num + 1
+            VehicleInfo_obj = VehicleInfo(
+                vin=key["车辆vin"],
+                six_yards=key["六位码"],
+                vehicle_type=key["车型"],
+                guidance_price=key["指导价"],
+                status=0,
+                department=Department.objects.get(title=key["所属部门"]),
+                inbound_date=datetime.datetime.strptime(key["入库日期"], '%Y/%m/%d').strftime('%Y-%m-%d'),
+                remarks=key["备注"],
+            )
+            import_set_list.append(VehicleInfo_obj)
+
+        try:
+            VehicleInfo.objects.bulk_create(import_set_list)
+            response_data['result'] = True
+        except Exception as e:
+            response_data['result'] = False
+            error_value_list.clear()
+            error_value_list.append("提交数据失败，请联系管理员！")
+            print(e)  # todo
+
+    response_data["all_num"] = all_num
+    response_data["y_num"] = y_num
+    response_data["n_num"] = n_num
+    response_data["error_list"] = error_value_list
+    return response_data

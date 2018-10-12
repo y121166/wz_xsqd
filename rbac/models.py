@@ -19,7 +19,7 @@ class UserInfo(models.Model):
 
 
 class Department(models.Model):
-    title = models.CharField(max_length=64)
+    title = models.CharField(max_length=64, unique=True)
     dep_code = models.CharField(max_length=5, unique=True, null=True, blank=True)
 
     class Meta:

@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from rbac.models import VehicleInfo, UserInfo, Department
-from django.http import JsonResponse
+from django.http import JsonResponse, FileResponse
 from wzjt.wz_pack import vehicle
 from wzjt.wz_pack import detail
 from wzjt.wz_pack.auth_login import auth
@@ -67,6 +67,15 @@ def vehicle_import(request):
     else:
         response_data = vehicle.vehicle_import(request)
         return JsonResponse(response_data, safe=False)
+
+
+# 车辆导入模板
+def vehicle_down(request):
+    file = open('wzjt/static/download/vehicle_import.xlsx', 'rb')
+    response = FileResponse(file)
+    response['Content-Type'] = 'application/octet-stream'
+    response['Content-Disposition'] = 'attachment;filename="vehicle_import.xlsx"'
+    return response
 
 
 # ajax获取车辆vin

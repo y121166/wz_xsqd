@@ -15,6 +15,7 @@ urlpatterns = [
     url(r'^del_vehicle/$', views.del_vehicle, name='del_vehicle'),  # 删除车辆信息
     url(r'^vehicle_info-(?P<nid>\d+)/$', views.vehicle_info, name='vehicle_info'),  # 车辆信息详情
     url(r'^vehicle_import/$', views.vehicle_import, name='vehicle_import'),  # 导入车辆信息
+    url(r'^vehicle_down/$', views.vehicle_down, name='vehicle_down'),  # 下载导入模板
 
     # 订单相关
     url(r'^detail_page/$', views.detail_page, name='detail_page'),  # 销售顾问
