@@ -481,7 +481,7 @@
             $("#cx_reset").click(function () {
                 $("#cx_no").val("");
                 $("#cx_vin").val("");
-                $("#cx_status").val("");
+                $("#cx_status").val("0");
             });
 
             //查询事件

@@ -9,99 +9,54 @@
         <script src="{{ STATIC_URL }}assets/js/jquery-2.0.3.min.js"></script>
         <script src="{{ STATIC_URL }}layer/layer.js"></script>
         <script src="{{ STATIC_URL }}wzjs/xlsx.full.min.js"></script>
+        <script src="{{ STATIC_URL }}wzjs/tool.js"></script>
+        <link rel="stylesheet" href="{{ STATIC_URL }}assets/css/bootstrap.min.css" />
+
 	</head>
 
 	<body>
-        <input  type="file" onchange="importExcel(this)" class="filter_input form-control"/>
-        <textarea id="txtArea" cols=50 rows=10></textarea> 
-        <script> 
-            var wb;//读取完成的数据
-            var rABS = true; //是否将文件读取为二进制字符串
 
-            function importExcel(obj) {//导入
+        <h2 class="text-left">车辆库存导入</h2>
 
-                //判定是否有文件
-                if(obj.files.length==0) {
-                    layer.msg("必须上传excel文件!");
-                    return;
+        <div class="col-sm-12">
+            <ul class="list-group">
+                <li class="list-group-item">
+                    <label>第一步：点击超链接，下载导入模板</label>
+                    <a href="/wzjt/vehicle_down/">下载模板</a>
+                </li>
+                <li class="list-group-item">
+                    <label>第二步：编辑导入模板</label>
+                </li>
+                <li class="list-group-item">
+                    <label>第三步：选择编辑后的导入模板，并点击导入按钮，查看导入结果</label>
+                    <p><input id="import_file" type="file" onchange="file_change(this)" class="col-sm-5"></p>
+                    <p><input id="import_button" type="button" onclick="importValue()" style="display: none" value="导入"></p>
+                    <div>
+                        <div id="file_value"></div>
+                        <div>
+                            <table id="error_list" class="table table-hover"></table>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+
+        </div>
+
+        <script>
+            var file;
+            function file_change(obj){
+                file = obj;
+                if(checkExcel(obj).status){
+                    $("#import_button").show();
+                }else {
+                    $("#import_button").hide();
                 }
+            }
 
-                //获取文件后缀，以判定文件类型
-                var suffix = obj.files[0].name.split(".")[1];
-                //$('#_file_path').val(obj.files[0].name);
-                if(suffix != 'xls' && suffix !='xlsx'){
-                    layer.msg("只能上传 xls 或 xlsx 格式的文件!");
-                    return;
-                }
-
-                //判断文件大小
-                const IMPORTFILE_MAXSIZE = 10*1024;//这里可以自定义控制导入文件大小
-                if(obj.files[0].size/1024 > IMPORTFILE_MAXSIZE){
-                    layer.msg("文件不能超过10MB!");
-                    return;
-                }
-
-                var f = obj.files[0]; // 文件内容
-                var reader = new FileReader();  // 实例化FileReader对象
-
-                //读取文件为二进制
-                reader.readAsBinaryString(f);
-                /*
-                if(rABS) {
-                    reader.readAsArrayBuffer(f);  // 读取为二进制
-                } else {
-                    reader.readAsBinaryString(f);  //读取为
-                }*/
-
-                //文件读取完成后的数据处理
-                reader.onload = function(e) {
-
-                    var data = e.target.result;
-                    //读取为二进制
-                    wb = XLSX.read(data, {
-                            type: 'binary'
-                    });
-
-                    /*
-                    if(rABS) {
-                        wb = XLSX.read(btoa(fixdata(data)), {//手动转化
-                            type: 'base64'
-                        });
-                    } else {
-                        wb = XLSX.read(data, {
-                            type: 'binary'
-                        });
-                    }
-                    */
-
-                    //wb.SheetNames[0]是获取Sheets中第一个Sheet的名字
-                    //wb.Sheets[Sheet名]获取第一个Sheet的数据
-                    var a=wb.SheetNames[0];
-                    var b=wb.Sheets[a];//内容为方式2
-
-                    data = XLSX.utils.sheet_to_json(b);//内容为方式1
-
-                    if(!data||data==""){
-                        layer.closeAll('loading');
-                        layer.msg("文件为空,请选择另一个文件!");
-                        return;
-                    }
-                    //console.log(data);
-            　　　　　//在这里执行对解析后数据的处理TODO
-            　　　　　　//var Compile_Result=Batch_Compile(data);
-            　　　　　　//DrawTable(Compile_Result);
-                };
-                /*
-                function fixdata(data) { //文件流转BinaryString
-                    var o = "", l, w = 10240;
-                    console.log(data.byteLength);
-                    for( l = 0; l < data.byteLength / w; ++l)
-                        o += String.fromCharCode.apply(null, new Uint8Array(data.slice(l * w, l * w + w)));
-                    o += String.fromCharCode.apply(null, new Uint8Array(data.slice(l * w)));
-                    return o;
-                }
-                */
-        }
+            function importValue() {
+                importExcel(file,'/wzjt/vehicle_import/');
+            }
         </script>
     </body>
+
 </html>

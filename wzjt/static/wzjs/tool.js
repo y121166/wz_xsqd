@@ -156,6 +156,7 @@ function hide_icon(obj) {
         $(obj).next().css("visibility","visible");
     }
 }
+
 //格式化日期
 function Format(fmt) {
     var o = {
@@ -174,6 +175,164 @@ function Format(fmt) {
         fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
     return fmt;
 };
+
+//读取excel文件
+
+function checkExcel(obj) {
+    var req = new Array();
+    req['status'] = true;
+
+    //判定是否有文件
+    if(obj.files.length==0) {
+        req['status'] = false;
+        req['msg'] = '必须上传excel文件!';
+        layer.msg("必须上传excel文件!");
+        return req;
+    }
+
+    //获取文件后缀，以判定文件类型
+    var suffix = obj.files[0].name.split(".")[1];
+    //$('#_file_path').val(obj.files[0].name);
+    if(suffix != 'xls' && suffix !='xlsx'){
+        req['status'] = false;
+        req['msg'] = '只能上传 xls 或 xlsx 格式的文件!';
+        layer.msg("只能上传 xls 或 xlsx 格式的文件!");
+        return req;
+    }
+
+    //判断文件大小
+    const IMPORTFILE_MAXSIZE = 10*1024;//这里可以自定义控制导入文件大小
+    if(obj.files[0].size/1024 > IMPORTFILE_MAXSIZE){
+        req['status'] = false;
+        req['msg'] = '文件不能超过10MB!';
+        layer.msg("文件不能超过10MB!");
+        return req;
+    }
+    return req;
+}
+
+function importExcel(obj, ajax_url) {
+    var wb;//读取完成的数据
+    var data;//返回的数据
+
+    //ajax
+    var timeout = 5*60*1000; //ajax超时时间
+    var ajax_url = ajax_url; //url
+    var ajax_type = "POST"; //请求方式
+    var ajax_async = "false";
+    var dataType = 'json';
+
+    var check_flag = checkExcel(obj);
+    //console.log(check_result);
+    if (!check_flag['status']){
+        return;
+    }
+
+    var f = obj.files[0]; // 文件内容
+    var reader = new FileReader();  // 实例化FileReader对象
+
+    //读取文件为二进制
+    reader.readAsBinaryString(f);
+
+    //文件读取完成后的数据处理
+    reader.onload = function(e) {
+        data = e.target.result;
+        //读取为二进制
+        wb = XLSX.read(data, {
+                type: 'binary'
+        });
+
+        var a=wb.SheetNames[0];
+        var b=wb.Sheets[a];//内容为方式2
+
+        data = XLSX.utils.sheet_to_json(b);//内容为方式1
+        data = JSON.stringify(data);
+
+        if(!data || data==""){
+            layer.closeAll('loading');
+            layer.msg("文件为空,请选择另一个文件!");
+            return;
+        }
+
+        console.log(data);
+        $.ajax({
+            url:ajax_url,
+            type:ajax_type,
+            dataType:dataType,
+            async:ajax_async,
+            data:{'data':data},
+            beforeSend:function () {
+                $("#import_button").addClass("disabled");
+            },
+            success:function (data,status) {
+                $("#file_value").text("");
+                $("#error_list").html("");
+
+                var error_list = data.error_list;
+                var html = '';
+
+                if(data.result){
+                    if(data.n_num == 0){
+                        $("#file_value").append('<p>总计：' + data.all_num + '条;   '+ '<span style="color: green">成功：&nbsp' + data.y_num + '&nbsp 条;</span>');
+                        layer.alert('导入完成',{
+                            skin: 'layui-layer-molv' //样式类名
+                            ,closeBtn: 0
+                        });
+                    }else {
+                        $("#file_value").append('<p>总计：' + data.all_num + '条;   '+ '<span style="color: green">成功：&nbsp' + data.y_num + '&nbsp 条;</span>' +
+                        '<span style="color: red">失败：&nbsp' + data.n_num + '&nbsp</b>条</span>.<br/>失败明细如下：</p>');
+
+                        for (var i = 0, len = error_list.length; i < len; i++){
+                            if(i == 0){
+                                html += '<tr><th>序号</th><th>失败VIN及原因</th></tr>'
+                            }
+                            html += '<tr><td>'+ (i+1) +'</td><td>' + error_list[i] + '</td></tr>'
+                        }
+                        $("#error_list").append(html);
+                        layer.alert('导入完成,失败' + data.n_num + '条',{
+                            skin: 'layui-layer-molv' //样式类名
+                            ,closeBtn: 0
+                        });
+                    }
+
+
+                }else {
+                    for (var i = 0, len = error_list.length; i < len; i++){
+                        html += '<tr><td>' + error_list[i] + '</td></tr>'
+                    }
+
+                    $("#error_list").append(html);
+
+                    layer.alert('导入失败',{
+                        skin: 'layui-layer-hong' //样式类名
+                        ,closeBtn: 0
+                    })
+                }
+            },
+        })
+
+    };
+
+
+    reader.onloadstart = function (e) {
+        var mydate = new Date();
+        start = mydate.getTime();
+        var loading = layer.load(1, {
+          shade: [0.1,'#fff'] //0.1透明度的白色背景
+        });
+    };
+
+    reader.onprogress = function (e) {
+        //读取中 TODO
+    };
+
+    reader.onloadend = function (e) {
+        var mydate = new Date();
+        end = mydate.getTime();
+        layer.closeAll(layer.loading);
+        console.log((end - start)/1000)
+    };
+}
 
 //自定义modal内容封装
 
