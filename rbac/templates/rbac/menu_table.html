@@ -1,5 +1,579 @@
+<!--菜单页面-->
 {% extends "rbac/base.html" %}
+
+<!--页面所需css-->
+{% block pagestyle %}
+
+    <link rel="stylesheet" href="{{ STATIC_URL }}assets/css/bootstrap-treeview.min.css" />
+    <link rel="stylesheet" href="{{ STATIC_URL }}assets/css/context.standalone.css" />
+    <link rel="stylesheet" href="{{ STATIC_URL }}z-tree/css/zTreeStyle.css" />
+
+{% endblock pagestyle %}
+
+
 {% block context %}
-    菜单列表
+<div class="breadcrumbs" id="breadcrumbs"><!--breadcrumbs start-->
+    <script type="text/javascript">
+        try{ace.settings.check('breadcrumbs' , 'fixed')}catch(e){}
+    </script>
+
+    <ul class="breadcrumb">
+        <li>
+            <i class="icon-home home-icon"></i>
+            <a href="/rbac/index/">首页</a>
+        </li>
+        <li class="active">系统管理</li>
+        <li class="active">菜单管理</li>
+    </ul><!-- .breadcrumb -->
+
+    <div class="nav-search" id="nav-search">
+        <form class="form-search">
+            <span class="input-icon">
+                <input type="text" placeholder="Search ..." class="nav-search-input" id="nav-search-input" autocomplete="off" />
+                <i class="icon-search nav-search-icon"></i>
+            </span>
+        </form>
+    </div><!-- #nav-search -->
+</div>
+
+<div class="col-sm-3">
+
+    <div class="widget-box">
+        <div class="widget-header header-color-blue3">
+            <h4 class="lighter smaller">菜单目录</h4>
+        </div>
+
+        <div class="widget-body">
+            <div class="widget-main">
+                菜单名称：
+                <input id="menuSech" type="text" placeholder="请输入关键字检索" value="" class="empty" />
+                <hr>
+                <ul id="menuTree" class="ztree"></ul>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="col-sm-5">
+    <div class="widget-box">
+        <div class="widget-header header-color-blue3">
+            <h4 class="lighter smaller">详情</h4>
+        </div>
+        <div class="widget-body">
+            <div class="widget-main">
+                <p>
+                    <button class="btn btn-xs" onclick="addButton();">
+                        <i class="icon-plus align-top bigger-125"></i>
+                        新增
+                    </button>
+                    <button id="delButton" class="btn btn-xs btn-danger" onclick="delButton();">
+                        <i class="icon-trash align-top bigger-125"></i>
+                        删除
+                    </button>
+                </p>
+                <hr>
+                <form class="form-horizontal" role="form">
+                    <div class="form-group">
+                        <div>
+                            <lable class="col-sm-3 control-label no-padding-right">名称：</lable>
+                            <input id="menu_Name" type="text" class="col-xs-10 col-sm-5" placeholder="请输入菜单名称" value="">
+                        </div>
+                    </div>
+
+                     <div class="form-group">
+                        <div>
+                            <lable class="col-sm-3 control-label no-padding-right">上级节点：</lable>
+                            <input id="menu_PName"  type="text" readonly class="col-xs-10 col-sm-5" placeholder="请选择父节点" value="" onclick="showMenu();">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div>
+                            <lable class="col-sm-3 control-label no-padding-right">菜单URL：</lable>
+                            <input type="text" id="menu_Url"  class="col-xs-10 col-sm-5" placeholder="URL，如菜单不填写" value="">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div>
+                            <lable class="col-sm-3 control-label no-padding-right">是否展示：</lable>
+                            <label>
+                                <input id="switch-show" class="ace ace-switch ace-switch-6" type="checkbox">
+                                <span class="lbl"></span>
+                            </label>
+                        </div>
+                    </div>
+                </form>
+                <hr>
+                <div class="center">
+                    <p>
+                        <button id="menu_save_btn" url="/rbac/menu_add/" onclick="menu_save(this);" class="btn btn-sm btn-success">
+                            <i class="icon-ok align-top bigger-125"></i>
+                            新增
+                        </button>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="col-sm-4">
+    <div class="widget-box">
+        <div class="widget-header header-color-blue3">
+            <h4 class="lighter smaller">可操作角色</h4>
+        </div>
+        <div class="widget-body">
+            <div class="widget-main">
+                <p>
+                    <button class="btn btn-xs" onclick="role_change()">
+                        <i class="icon-plus align-top bigger-125"></i>
+                        保存
+                    </button>
+                </p>
+                <hr>
+                <ul id="roleTree" class="ztree" style="margin-top:0; width:190.38px; height: 300px;"></ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <div id="menuContent" class="menuContent" style="display:none; position: absolute;background:#E3E3E3; position:absolute; z-index:100">
+        <ul id="onlyMenuTree" class="ztree" style="margin-top:0; width:190.38px; height: 300px;"></ul>
+    </div>
+
 {% endblock context %}
-  <!-- content end -->
+
+<!-- page specific plugin scripts -->
+{% block pagescript %}
+
+    <script src="{{ STATIC_URL }}assets/js/bootstrap-treeview.min.js"></script>
+    <script src="{{ STATIC_URL }}assets/js/context.js"></script>
+    <script src="{{ STATIC_URL }}z-tree/js/jquery.ztree.all.min.js"></script>
+    <script src="{{ STATIC_URL }}z-tree/js/jquery.ztree.exhide.min.js"></script>
+    <script src="{{ STATIC_URL }}z-tree/js/fuzzysearch.min.js"></script>
+
+    <!--z-tree实现树形结构-->
+    <script language="JavaScript">
+
+        var per_zTreeObj; //权限树对象
+        var menu_zTreeObj; //菜单树对象
+        var role_zTreeObj; //角色树对象
+
+        //zTree 的参数配置
+        var setting={
+            check:{
+                enable:false,
+            },
+            view:{
+                nameIsHTML:true,
+                selectedMulti:false
+            },
+            edit:{
+                enable:false,
+                editNameSelectAll:false
+            },
+            async:{
+                enable:true,
+                type:"post",
+                dataType:"json",
+                url:"/rbac/menu_tree/",
+                //dataFilter:menuPerCallback,
+                autoParam:["id","name","pid"],
+                otherParam:{"only_menu":"false"}
+            },
+            data:{
+                simpleData:{
+                    enable:true,
+                    idKey:"id",
+                    pIdKey:"pid",
+                    rootPId:null
+                }
+            },
+            callback:{
+                onClick:zTreeOnCheck
+            }
+        };
+
+        //menu 菜单zTree的参数配置
+        var setting_menu={
+            check: {
+				enable: true,
+				chkStyle: "radio",
+				radioType: "all"
+			},
+			view: {
+				dblClickExpand: false
+			},
+            async:{
+                enable:true,
+                type:"post",
+                dataType:"json",
+                url:"/rbac/menu_tree/",
+                //dataFilter:menuPerCallback,
+                autoParam:["id","name","pid"],
+                otherParam:{"only_menu":"true"}
+            },
+			data: {
+				simpleData: {
+					enable:true,
+                    idKey:"id",
+                    pIdKey:"pid",
+                    rootPId:null
+				}
+			},
+			callback: {
+				onClick: onClick,
+				onCheck: onCheck
+			}
+        };
+
+        //role zTree 的参数配置
+        var setting_role={
+            check:{
+                enable:true,
+            },
+            view:{
+                nameIsHTML:false,
+                selectedMulti:false
+            },
+            edit:{
+                enable:false,
+                editNameSelectAll:false
+            },
+            async:{
+                enable:true,
+                type:"post",
+                dataType:"json",
+                url:"/rbac/role_tree/",
+                autoParam:["id"],
+            },
+            callback:{
+                onClick:""
+            }
+        };
+
+        //目录树选中
+        function zTreeOnCheck(event,treeId,treeNode){
+
+            var menuName = $("#menu_Name"); //菜单输入框obj
+            var menuPName = $("#menu_PName"); //父节点选择框obj
+            var menuUrl = $("#menu_Url"); // 菜单URL 输入框obj
+            var switch_show = $("#switch-show"); //是否显示
+            var menu_save_btn = $("#menu_save_btn"); // 按钮obj
+
+            //console.log(treeNode);
+
+            //初始化form
+            menuName.val("");
+            menuName.attr("value","");
+
+            menuPName.val("");
+            menuPName.attr("value","");
+
+            menuUrl.val("");
+            switch_show.prop("checked",false);
+
+            //修改详情-保存按钮连接地址
+            menu_save_btn.html('<i class= "icon-ok align-top bigger-125 "></i>修改');
+            menu_save_btn.attr("url","/rbac/menu_edit/");
+
+            if(treeNode.fieldType == "menu"){
+                //设置URL input框隐藏
+                menuUrl.parents(".form-group").hide();
+                switch_show.parents(".form-group").hide();
+
+                menuName.val(treeNode.menu_name);
+                menuName.attr("value",treeNode.id);
+
+                //menu 隐藏角色树
+                role_zTreeObj = $.fn.zTree.getZTreeObj("roleTree");
+                if (role_zTreeObj){
+                    role_zTreeObj.destroy();
+                }
+
+                //role_zTreeObj.checkAllNodes(false);
+
+                //判断是否包含子节点，如包含隐藏删除按钮
+                if(treeNode.children){
+                    $("#delButton").hide();
+                }else {
+                    $("#delButton").show();
+                }
+
+                if(treeNode.pid){
+                    //menuPName.val(treeNode.pid);
+                    var pid = menu_zTreeObj.getNodesByParam("id",treeNode.getParentNode().id,null);
+                    menu_zTreeObj.checkNode(pid[0],true,null,true);
+                    menuPName.val(treeNode.getParentNode().name);
+                }else {
+                    menuPName.val("");//上级节点输入框置空
+                    var menu_check = menu_zTreeObj.getCheckedNodes(true);
+                    if(menu_check.length !=0){
+                        menu_zTreeObj.checkNode(menu_check[0],false,null,true);// 取消树节点的选择
+                    }
+                }
+
+            }else if(treeNode.fieldType == "per"){
+
+                //设置URL input框显示
+                menuUrl.parents(".form-group").show();
+                switch_show.parents(".form-group").show();
+                $("#delButton").show();
+
+                console.log(treeNode);
+
+                menuName.val(treeNode.per_name);
+                menuName.attr("value",treeNode.per_id);
+                menuUrl.val(treeNode.perUrl);
+                switch_show.prop("checked",treeNode.is_menu);
+
+                //选中的节点对应的父节点id
+                var pid = menu_zTreeObj.getNodesByParam("id",treeNode.getParentNode().id,null);
+                menu_zTreeObj.checkNode(pid[0],true,null,true);
+
+                menuPName.val(treeNode.getParentNode().name);
+
+                //设置角色的setting
+                //setting_role.async.append("otherParam:{'per_id':"+treeNode.id+"}");
+                setting_role.async["otherParam"] = {};
+                setting_role.async["otherParam"]['per_id']=treeNode.per_id;
+                role_initzTree();
+
+            }else {
+                layer.msg("未知参数，请联系管理员！");
+            }
+        }
+
+        //菜单-权限列表初始化
+        function initzTree(){
+            per_zTreeObj = $.fn.zTree.init($("#menuTree"), setting,); //初始化菜单树
+            fuzzySearch('menuTree',"#menuSech",null,true); //查询
+        }
+
+        //获取角色修改的集合
+        function role_change() {
+
+            var per_id = per_zTreeObj.getSelectedNodes()[0].per_id;
+            var ChangeCheckedNodes_obj = role_zTreeObj.getChangeCheckedNodes();
+
+            var data_json={
+                "per_id":per_id,
+            };
+            data_json.roleAddNodes_list = new Array();
+            data_json.roleDelNodes_list = new Array();
+
+            if (ChangeCheckedNodes_obj.length > 0){
+                for (var i=0; i < ChangeCheckedNodes_obj.length; i++){
+
+                    if(ChangeCheckedNodes_obj[i].checked){
+                        data_json.roleAddNodes_list.push(ChangeCheckedNodes_obj[i].id);
+                    }else {
+                        data_json.roleDelNodes_list.push(ChangeCheckedNodes_obj[i].id);
+                    }
+                }
+            }
+
+            //修改权限对应角色的 ajax 保存函数
+            $.ajax({
+                url:"/rbac/role_change/",
+                type:"post",
+                dataType:"json",
+                data:{"applicants":JSON.stringify(data_json)},
+                async:false,
+                beforeSend:function(){
+                    var index = layer.load(1,{shade:false});
+                },
+                timeout:1000*60,
+                success:function (data,status) {
+                    layer.close(layer.index);
+                    layer.msg(data.message);
+                    if(data.result == 'true'){
+                        var refresh_tree = $.fn.zTree.getZTreeObj("roleTree");
+                        refresh_tree.reAsyncChildNodes(null, "refresh");
+                    }
+                },
+                error:function (err,status) {
+                    layer.close(layer.index);
+                },
+            });
+
+        }
+
+        function onClick(e, treeId, treeNode) {
+			var onlyMenuTree = $.fn.zTree.getZTreeObj("onlyMenuTree");
+			onlyMenuTree.checkNode(treeNode, !treeNode.checked, null, true);
+			return false;
+		}
+
+		function onCheck(e, treeId, treeNode) {
+			var onlyMenuTree = $.fn.zTree.getZTreeObj("onlyMenuTree"),
+			nodes = onlyMenuTree.getCheckedNodes(true),
+			v = "";
+			cid=0;
+			for (var i=0, l=nodes.length; i<l; i++) {
+				v += nodes[i].name + ",";
+				cid=nodes[i].id;
+			}
+			if (v.length > 0 ) v = v.substring(0, v.length-1);
+			var cityObj = $("#menu_PName");
+			cityObj.val(v);
+			cityObj.attr("cid", cid);
+		}
+
+		function showMenu() {
+			var cityObj = $("#menu_PName");
+			var cityOffset = $("#menu_PName").offset();
+			//console.log(cityOffset);
+			$("#menuContent").css({left:cityOffset.left + "px", top:cityOffset.top-15 + "px"}).slideDown("fast");
+			//$("#menuContent").offset({top:cityOffset.top,left:cityOffset.left}).slideDown("fast");
+            menu_initzTree();
+
+			$("body").bind("mousedown", onBodyDown);
+		}
+		function hideMenu() {
+			$("#menuContent").fadeOut("fast");
+			$("body").unbind("mousedown", onBodyDown);
+		}
+		function onBodyDown(event) {
+			if (!(event.target.id == "menuBtn" || event.target.id == "citySel" || event.target.id == "menuContent" || $(event.target).parents("#menuContent").length>0)) {
+				hideMenu();
+			}
+		}
+		
+		//详情-新增按钮事件
+        function addButton() {
+            var menuName = $("#menu_Name");
+            var menuPName = $("#menu_PName");
+            var menuUrl = $("#menu_Url");
+            var switch_show = $("#switch-show"); //是否显示
+            var menu_save_btn = $("#menu_save_btn");
+
+            //1、设置RUL input显示
+            menuUrl.parents(".form-group").show();
+            switch_show.parents(".form-group").show();
+
+            //2、重置input 值
+            menuName.val("");
+            menuPName.val("");
+            menuPName.attr("cid","");
+            menuUrl.val("");
+
+            //3、取消tree选择
+            var menu_check = menu_zTreeObj.getCheckedNodes(true);
+            if(menu_check.length != 0){
+                menu_zTreeObj.checkNode(menu_check[0],false,null,true);// 取消树节点的选择
+            }
+
+            //4、设置保存按钮的提交连接
+            menu_save_btn.html('<i class= "icon-ok align-top bigger-125 "></i>新增');
+            menu_save_btn.attr("url","/rbac/menu_add/");
+        }
+
+        //详情-删除按钮事件
+        function delButton() {
+            var subUrl = '/rbac/menu_del/';
+            var menuName = $("#menu_Name").val();
+            var menuId = $("#menu_Name").attr("value");
+            var menuPid = $("#menu_PName").attr("cid");
+            var menuPName = $("#menu_PName").val();
+            var menuUrl = $("#menu_Url").val();
+            var is_menu = $("#switch-show").prop('checked');
+
+            if(menuId == ''){
+                layer.msg("必须选择菜单！");
+                return
+            }
+
+            //删除ajax提交函数
+            layer.confirm("确定删除 '" + menuPName + "/" + menuName + "' 吗？",{icon: 3, title:'提示',btn:['确认','取消']
+                    },function () {
+                        $.ajax({
+                            url:"/rbac/menu_del/",
+                            type:"POST",
+                            dataType:"json",
+                            data:{"id":menuId, "title":menuName,"pid":menuPid,"perUrl":menuUrl,"is_menu":is_menu },
+                            async:false,
+                            beforeSend:function(){
+                            var index = layer.load(1,{shade:false});
+                            },
+                            success:function (data,status) {
+                                layer.close(layer.index);
+                                if(data.result == 'true'){
+                                    layer.msg(data.message);
+                                    var refresh_tree = $.fn.zTree.getZTreeObj("menuTree");
+                                    refresh_tree.reAsyncChildNodes(null, "refresh");
+                                    addButton();
+                                }else {
+                                    layer.alert(data.message,{
+                                        icon:7,
+                                        skin: 'layui-layer-lan'
+                                        ,closeBtn: 0
+                                        ,anim: 4 //动画类型
+                                      })
+                                }
+                            },
+                        });
+                    },function () {
+
+                    }
+             );
+
+
+        }
+
+        //详情-保存按钮
+        function menu_save(event) {
+            var subUrl = $(event).attr("url");
+            var menuName = $("#menu_Name").val();
+            var menuId = $("#menu_Name").attr("value");
+            var menuPid = $("#menu_PName").attr("cid");
+            var menuUrl = $("#menu_Url").val();
+            var is_menu = $("#switch-show").prop('checked');
+
+            //添加ajax提交函数
+            $.ajax({
+                url:subUrl,
+                type:"post",
+                dataType:"json",
+                data:{"id":menuId, "title":menuName,"pid":menuPid,"perUrl":menuUrl,"is_menu":is_menu },
+                async:false,
+                beforeSend:function(){
+                    var index = layer.load(1,{shade:false});
+                },
+                success:function (data,status) {
+                    layer.close(layer.index);
+                    layer.msg(data.message);
+                    if(data.result == 'true'){
+                        var refresh_tree = $.fn.zTree.getZTreeObj("menuTree");
+                        refresh_tree.reAsyncChildNodes(null, "refresh");
+
+                        //setTimeout(refresh_tree.refresh(), 500);
+                    }
+                },
+                error:function (err,status) {
+                    layer.close(layer.index);
+                },
+            });
+        }
+
+		//menu初始化
+        function menu_initzTree(){
+            menu_zTreeObj = $.fn.zTree.init($("#onlyMenuTree"), setting_menu,); //初始化菜单树
+        }
+
+        //role初始化
+        function role_initzTree(){
+            role_zTreeObj = $.fn.zTree.init($("#roleTree"), setting_role,); //初始化菜单树
+        }
+
+        $(document).ready(function () {
+            initzTree();
+            menu_initzTree();
+
+        });
+    </script>
+
+{% endblock pagescript%}
+

@@ -20,7 +20,9 @@ class MiddlewareMixin(object):
 
 
 class RbacMiddleware(MiddlewareMixin):
-    """ 检查用户的url请求是否在其权限范围内"""
+    """
+    检查用户的url请求是否在其权限范围内
+    """
 
     def process_request(self, request):
         request_url = request.path_info

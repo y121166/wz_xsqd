@@ -44,6 +44,6 @@ function check_psw(obj){
             },
         });
     }
-    console.log(obj);
+    //console.log(obj);
 }
 

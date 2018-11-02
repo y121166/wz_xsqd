@@ -32,7 +32,7 @@ class Department(models.Model):
 class Menu(models.Model):
     # 菜单
     title = models.CharField(max_length=32, unique=True)
-    parent = models.ForeignKey("Menu", null=True, blank=True, on_delete=models.CASCADE)
+    parent = models.ForeignKey("Menu", null=True, blank=True, on_delete=models.PROTECT)
 
     # 定义菜单间的自引用关系
     # 权限url 在 菜单下；菜单可以有父级菜单；还要支持用户创建菜单，因此需要定义parent字段（parent_id）
@@ -52,7 +52,8 @@ class Permission(models.Model):
     """权限"""
     title = models.CharField(max_length=32, unique=True)
     url = models.CharField(max_length=128, unique=True)
-    menu = models.ForeignKey("Menu", null=True, blank=True, on_delete=models.CASCADE)
+    is_menu = models.BooleanField(default=False)
+    menu = models.ForeignKey("Menu", null=True, blank=True, on_delete=models.PROTECT)
 
     def __str__(self):
         # 显示带菜单前缀的权限

@@ -104,7 +104,7 @@ def get_menu_html(menu_data):
 
     option_str = """
             <li>
-                <a href="#" class="dropdown-toggle">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                     <i class="icon-list"></i>
                     <span class="menu-text">{menu_title}</span>
                     <b class="arrow icon-angle-down"></b>
@@ -113,7 +113,7 @@ def get_menu_html(menu_data):
                 <ul class="submenu">
                         {sub_menu} 
                 </ul>
-				</li>
+			</li>
         """
 
     url_str = """
@@ -158,13 +158,14 @@ def get_menu_html(menu_data):
             if item.get('url'):  # 说明循环到了菜单最里层的url
                 if item['title'] in list_title_blank:
                     menu_html += url_str_blank.format(permission_url=item['url'],
-                                                permission_title=item['title'])
+                                                      permission_title=item['title'])
                 else:
                     menu_html += url_str.format(permission_url=item['url'],
                                                 permission_title=item['title'])
             else:
                 menu_html += option_str.format(menu_title=item['title'],
                                                sub_menu=get_menu_html(item['children']))
+
     return menu_html
 
 
@@ -178,5 +179,6 @@ def rbac_menu(request):
     menu_data = get_structure_data(request)
     menu_html = get_menu_html(menu_data)
 
-    return mark_safe(menu_html)
     # 因为标签无法使用safe过滤器，这里用mark_safe函数来实现
+    # print(menu_html)
+    return mark_safe(menu_html)

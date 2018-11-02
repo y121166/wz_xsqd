@@ -425,15 +425,20 @@
         //打印
         function print_detail(){
             $(".modal_view").print({
+                globalStyles:true,
                 deferred: $.Deferred(),
                 iframe:true,
-                append:'<div><h1>append添加</h1></div>',
-                prepend:'<div><h1>prepend添加</h1></div>',
+                stylesheet:
             });
         }
 
         //页面加载完成后 初始化
         jQuery(function($) {
+
+            // 日期控件
+            $('input[name=date-range-picker]').daterangepicker().prev().on(ace.click_event, function(){
+					$(this).next().focus();
+				});
 
             //生成vin 自动填充
             $("input[name='vehicle_vin']").autocomplete({
@@ -482,6 +487,8 @@
                 $("#cx_no").val("");
                 $("#cx_vin").val("");
                 $("#cx_status").val("0");
+                $("#cx_date").val("");
+                detail_table.ajax.reload();
             });
 
             //查询事件
@@ -525,6 +532,7 @@
                         param.cx_status=$("#cx_status").val();
                         param.cx_no=$("#cx_no").val();
                         param.cx_vin=$("#cx_vin").val();
+                        param.cx_date=$("#cx_date").val();
                         param.this_page = 'add';
                         return param;
                     },
@@ -721,24 +729,5 @@
             $(".required").on("change",function () {
                hide_icon(this);
             });
-
-            //实现JS添加modal todo
-            // $('#detail_table tbody').on("click","a[name='detail_edit']",function () {
-            //     //alert(1111);
-            //     var id = $(this).attr("data_id");
-            //
-            //     var initData = {
-            //         "appendId": "modal-edit",//加到哪里去
-            //         "modalId": "modal-edit",
-            //         "title": "修改菜单",
-            //         "formId": "formEdit", //form的ID
-            //         "loadUrl": "null", //如果不从页面加载，写成"null"
-            //         "loadParas": { "ID": id },     //向loadUrl传的数据
-            //         "postUrl": "/BasicManage/Edit", //提交add的url
-            //         "close": "", //关闭弹出窗后调用的方法
-            //         "cols": [{'displayName':'菜单名','fieldName':'Name'}]   //[ {"displayName":"菜单名","fieldName":"Name"}]
-            //     };
-            //     setModal(initData);
-            // });
         });
 

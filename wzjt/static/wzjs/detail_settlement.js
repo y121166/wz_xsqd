@@ -64,12 +64,12 @@
             });
         }
 
-        //订单审批事件
+        //订单结算事件
         function submit_settlement_detail(detail_table,data){
             /*
             * data:{
             *  order_id:订单id;
-            *  data_id:审批状态;
+            *  data_id:结算状态;
             * }
             *
             * */
@@ -126,11 +126,19 @@
         }
         //页面加载完成后 初始化
         jQuery(function($) {
+
+            // 日期控件
+            $('input[name=date-range-picker]').daterangepicker().prev().on(ace.click_event, function(){
+					$(this).next().focus();
+            });
+
             //重置查询条件事件
             $("#cx_reset").click(function () {
                 $("#cx_no").val("");
                 $("#cx_vin").val("");
-                $("#cx_status").val("");
+                $("#cx_status").val("2");
+                $("#cx_date").val("");
+                detail_table.ajax.reload();
             });
 
             //查询事件
@@ -165,6 +173,7 @@
                         param.cx_status=$("#cx_status").val();
                         param.cx_no=$("#cx_no").val();
                         param.cx_vin=$("#cx_vin").val();
+                        param.cx_date=$("#cx_date").val();
                         param.this_page="settlement";
                         return param;
                     },

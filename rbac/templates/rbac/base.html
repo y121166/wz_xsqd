@@ -147,7 +147,9 @@
 					</div><!-- #sidebar-shortcuts -->
 
 					<ul class="nav nav-list">
+
                         {% rbac_menu request %}
+
 					</ul><!-- /.nav-list -->
                     <div class="sidebar-collapse" id="sidebar-collapse">
 						<i class="icon-double-angle-left" data-icon1="icon-double-angle-left" data-icon2="icon-double-angle-right"></i>
@@ -281,11 +283,9 @@
 		<script src="{{ STATIC_URL }}assets/js/flot/jquery.flot.resize.min.js"></script>
 
 		<!-- ace scripts -->
-
-		<script src="{{ STATIC_URL }}assets/js/ace-elements.min.js"></script>
 		<script src="{{ STATIC_URL }}assets/js/ace.min.js"></script>
+        <script src="{{ STATIC_URL }}assets/js/ace-elements.min.js"></script>
 		<script src="{{ STATIC_URL }}assets/js/base.js"></script>
-
 		<!-- inline scripts related to this page -->
 </body>
 </html>

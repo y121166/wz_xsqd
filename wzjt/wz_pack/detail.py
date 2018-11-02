@@ -1,19 +1,23 @@
 from rbac.models import DetailInfo, VehicleInfo
-from .detail_lib import detail_create,detail_edit
+from .detail_lib import detail_create, detail_edit
 import datetime
 from .auth_login import auth
 
 
-# DataTable获取订单List
-
 def get_cx_tj(request):
+    """
+    DataTable获取订单列表
+    :param request:
+    :return:
+    """
     draw = request.POST.get("draw")  # 第几次访问
     dep_id = request.session['dep_id']  # 当前访问部门ID
-    roles_id = request.session['roles_id']  # 当前用户角色
-    user_id = request.session['user_id']  # 当前用户ID
+    roles_id = int(request.session['roles_id'])  # 当前用户角色
+    user_id = int(request.session['user_id'])  # 当前用户ID
     cx_no = request.POST.get("cx_no")  # 订单编码
     cx_status = request.POST.get("cx_status")  # 订单状态
     cx_vin = request.POST.get("cx_vin")  # 车辆VIN
+    cx_date = request.POST.get("cx_date")  # 订单日期
     this_page = request.POST.get("this_page")  # 当前页，填报add、审批audit、结算settlement
     start = int(request.POST.get("start"))  # 分页开始
     length = int(request.POST.get("length"))  # 每页条数
@@ -26,49 +30,54 @@ def get_cx_tj(request):
     role_cwsk = 5  # 财务收款
 
     get_dic = {}  # return
-    kwargs = {}
-    status_list = []
+    kwargs = {}  # 过滤条件
+    status_list = []  # 可查询订单状态
 
-    # todo
-    # 获取当前登录用户的权限及部门
+    # 默认当前部门
+    kwargs["department"] = dep_id
 
-    if this_page == 'add':
+    # 根据提交页面，可查询订单状态
+    if roles_id == role_fwgw or roles_id == role_admin:
         status_list = [0, 1, 2, 3]
         kwargs["report_name"] = user_id
-    if this_page == 'audit':
-        if roles_id == role_xsjl:  # 销售经理
-            status_list = [1, 2]
-            kwargs["department"] = dep_id
-    if this_page == 'settlement':
-        if roles_id == role_cwsk:  # 财务收款
-            status_list = [2]
-            kwargs["department"] = dep_id
 
-    if roles_id == role_admin:  # 系统管理员
-        status_list = [0, 1]
-        kwargs["department"] = dep_id
+    if roles_id == role_xsjl:  # 销售经理
+        status_list = [1, 2, 3]
+
+    if roles_id == role_cwsk:  # 财务收款
+        status_list = [2, 3]
+
+    # if roles_id == role_admin:  # 系统管理员
+    #     status_list = [0, 1]
+    #     kwargs["department"] = dep_id
 
     if cx_status != "" and int(cx_status) in status_list:
         status_list.clear()
         status_list.append(cx_status)
+
     kwargs['status__in'] = status_list
 
     if cx_no != "":
-        kwargs['order_no__icontains'] = cx_no
+        kwargs['order_no__icontains'] = cx_no  # 不分区大小写
     if cx_vin != "":
-        kwargs['vehicle__vin__icontains'] = cx_vin
+        kwargs['vehicle__vin__icontains'] = cx_vin  # 不分区大小写
+    if cx_date != "":
+        cx_date = cx_date.split(' ~ ')
+        cx_date[0] = datetime.datetime.strptime(cx_date[0], '%Y-%m-%d')
+        cx_date[1] = datetime.datetime.strptime(cx_date[1], '%Y-%m-%d') + datetime.timedelta(days=1)
+        kwargs['order_date__range'] = cx_date
 
     recordsFiltered = recordsTotal = DetailInfo.objects.filter(**kwargs).count()  # 查询数据总数
     # 生成list
     cx_list = list(
         DetailInfo.objects.filter(**kwargs).order_by("-entry_date").values('id', 'order_no', 'order_date',
-                                                                           'vehicle__vin',
-                                                                           'customer_name',
+                                                                           'vehicle__vin', 'customer_name',
                                                                            'customer_area', 'status',
-                                                                           'vehicle__vehicle_type',
-                                                                           'remark',
-                                                                           'sales_consultant', 'auditing_name__last_name',
-                                                                           'submit_date', 'auditing_date', 'settlement_date'))[start:end]
+                                                                           'vehicle__vehicle_type', 'remark',
+                                                                           'sales_consultant',
+                                                                           'auditing_name__last_name',
+                                                                           'submit_date', 'auditing_date',
+                                                                           'settlement_date'))[start:end]
     # print(recordsTotal)
     get_dic['draw'] = draw
     get_dic['recordsTotal'] = recordsTotal
@@ -78,57 +87,12 @@ def get_cx_tj(request):
     return get_dic
 
 
-# 订单详情
 @auth
 def info_detail(request, nid):
     """
-    values_map = map{
-        "vehicle",
-        "order_no",
-        "order_date",
-        "customer_name",
-        "customer_area",
-        "payment_way",
-        "payment_nper",
-        "transaction_price",
-        "security_deposit",
-        "replacement_subsidy",
-        "gift_je",
-        "time_fee",
-        "navigation_4G_fee",
-        "charging_fee",
-        "first_payment",
-        "financial_advisory_fee",
-        "personal_accident_insurance",
-        "mortgage_fee",
-        "fs_vps",
-        "labor_cost",
-        "ln_vps",
-        "free_mortgage_fee",
-        "installment_bond",
-        "glass_insurance",
-        "scratch_risk",
-        "theft_insurance",
-        "extension_insurance",
-        "listing_fee",
-        "value_added_package",
-        "maintenance_package",
-        "esc_potential_price",
-        "esc_procurement_price",
-        "earnest_money",
-        "status",
-        "department",
-        "remark",
-        "report_name",
-        "auditing_name",
-        "settlement_name",
-        "entry_date",
-        "submit_date",
-        "auditing_date",
-        "settlement_date"
-    }
+    订单详情
     :param request:
-    :param nid:
+    :param nid: 订单id
     :return:
     """
     values_map = [
@@ -185,18 +149,24 @@ def info_detail(request, nid):
         "deductions_xj",
         "skzj_xx",
         "dkje_xx",
-        "sales_consultant"
+        "sales_consultant",
+        # 以下为表关联字段信息
+        "vehicle__vin",
+        "vehicle",
+        "vehicle__vehicle_type",
+        "vehicle__six_yards",
+        "vehicle__guidance_price",
+        "report_name__last_name",
+        "auditing_name__last_name",
+        "settlement_name__last_name",
+        "department__title"
     ]
     response_data = {}
     try:
         detail_list = list(
-            DetailInfo.objects.filter(id=nid).values(*values_map, "vehicle__vin", "vehicle", "vehicle__vehicle_type",
-                                                     "vehicle__six_yards", "vehicle__guidance_price",
-                                                     "report_name__last_name", "auditing_name__last_name",
-                                                     "settlement_name__last_name", "department__title"))
-
-        response_data['detaildata'] = detail_list
+            DetailInfo.objects.filter(id=nid).values(*values_map))
         response_data['result'] = 'true'
+        response_data['detaildata'] = detail_list
     except Exception as e:
         response_data['result'] = 'false'
         response_data['message'] = '数据获取失败，请重试！'
@@ -205,9 +175,13 @@ def info_detail(request, nid):
     return response_data
 
 
-# 增加订单
 @auth
 def add_detail(request):
+    """
+    增加订单
+    :param request:
+    :return:
+    """
     dep_id = request.session['dep_id']  # 当前访问部门ID
     vin_id = request.POST.get("vehicle_vin_id")
     response_data = {}  # return
@@ -245,9 +219,13 @@ def add_detail(request):
     return response_data
 
 
-# 修改订单信息
 @auth
 def edit_detail(request):
+    """
+    修改订单信息
+    :param request:
+    :return:
+    """
     user_id = request.session['user_id']  # 当前访问部门ID
     user_name = request.session['username']  # 当前访问部门ID
     vin_id = int(request.POST.get("vehicle"))
@@ -301,14 +279,19 @@ def edit_detail(request):
     return response_data
 
 
-# 作废订单
 @auth
 def del_detail(request):
+    """
+    作废订单
+    :param request:
+    :return:
+    """
     response_data = {}
     id = request.POST.get("id")
     user_id = request.session['user_id']
     user_name = request.session['username']
-    detail_obj = DetailInfo.objects.filter(id=id, report_name=user_id).values("status", "order_no", "vehicle", "vehicle__vin").first()
+    detail_obj = DetailInfo.objects.filter(id=id, report_name=user_id).values("status", "order_no", "vehicle",
+                                                                              "vehicle__vin").first()
     if detail_obj:
         if detail_obj['status'] == 0:  # 订单状态待提交
             try:
@@ -330,9 +313,13 @@ def del_detail(request):
     return response_data
 
 
-# 撤回订单
 @auth
 def withdraw_detail(request):
+    """
+    撤回订单
+    :param request:
+    :return:
+    """
     response_data = {}
     id = request.POST.get("id")
     user_id = request.session['user_id']
@@ -357,11 +344,10 @@ def withdraw_detail(request):
     return response_data
 
 
-# 审核订单提交
 @auth
 def audit_detail(request):
     """
-    审核订单信息
+    审核订单提交方法
     :param request:订单id;审核结果：通过、驳回
     :return:
     """
@@ -372,7 +358,7 @@ def audit_detail(request):
     user_id = request.session['user_id']
     audit_date = datetime.datetime.now()
 
-    detail_obj = DetailInfo.objects.filter(id=id, department=dep_id).values("status").first()
+    detail_obj = DetailInfo.objects.filter(id=id, department=dep_id).values("status", "vehicle").first()
     if detail_obj:
         if detail_obj['status'] == 1:  # 订单状态为 待审批
             if status_id == 1:  # 通过
@@ -386,11 +372,13 @@ def audit_detail(request):
             else:  # 驳回
                 try:
                     DetailInfo.objects.filter(id=id).update(status=0)
+                    VehicleInfo.objects.filter(id=detail_obj['vehicle']).update(status=0)
                     response_data['result'] = 'true'
                     response_data['message'] = "订单驳回！"
                 except Exception as e:
                     response_data['result'] = 'false'
                     response_data['message'] = "驳回失败，请联系管理员！"
+                    print(e)
         else:
             response_data['result'] = 'false'
             response_data['message'] = "该订单非待审批状态！"
@@ -400,11 +388,10 @@ def audit_detail(request):
     return response_data
 
 
-# 结算订单提交
 @auth
 def settlement_detail(request):
     """
-    结算订单信息
+    结算订单提交方法
     :param request:订单id;审核结果：通过、驳回
     :return:
     """
@@ -414,14 +401,15 @@ def settlement_detail(request):
     dep_id = request.session['dep_id']
     user_id = request.session['user_id']
     settlement_date = datetime.datetime.now()
-    #print('%s,%s,%s'%(id, status_id, dep_id))
+    # print('%s-%s-%s' % (id, status_id, dep_id))
 
     detail_obj = DetailInfo.objects.filter(id=id, department=dep_id).values("status").first()
     if detail_obj:
         if detail_obj['status'] == 2:  # 订单状态为待结算
             if status_id == 1:  # 结算
                 try:
-                    DetailInfo.objects.filter(id=id).update(status=3, settlement_name=user_id, settlement_date=settlement_date)
+                    DetailInfo.objects.filter(id=id).update(status=3, settlement_name=user_id,
+                                                            settlement_date=settlement_date)
                     response_data['result'] = 'true'
                     response_data['message'] = "结算完成！"
                 except Exception as e:

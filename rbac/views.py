@@ -8,6 +8,8 @@ from django.http import JsonResponse
 from wzjt.wz_pack.pycrypto import *
 from wzjt.wz_pack.auth_login import auth
 
+from rbac.wz_rbac_pack import menu, role
+
 
 # Create your views here.
 # 登陆
@@ -197,13 +199,83 @@ def dep_del(request, nid):
     return JsonResponse(response_data, safe=False)
 
 
-# 菜单表
-def menu_table(request):
+# 菜单页面
+@auth
+def menu_page(request):
     return render(request, 'rbac/menu_table.html')
 
 
+# 菜单树结构
+def menu_tree(request):
+    response_data = menu.menu_all_tree(request)  # 获取menu_json
+    # print(response_data)
+    return JsonResponse(response_data, safe=False)
+
+
+# 菜单或权限新增
+def menu_add(request):
+    menu_deal_obj = menu.MenuDeal(request)
+    response_data = menu_deal_obj.menu_add()
+    return JsonResponse(response_data, safe=False)
+
+
+# 菜单或权限修改
+def menu_edit(request):
+    menu_deal_obj = menu.MenuDeal(request)
+    response_data = menu_deal_obj.menu_edit()
+    return JsonResponse(response_data, safe=False)
+
+
+# 菜单或权限删除
+def menu_del(request):
+    menu_deal_obj = menu.MenuDeal(request)
+    response_data = menu_deal_obj.menu_del()
+    return JsonResponse(response_data, safe=False)
+
+
 # 角色表
-def role_table(request):
+def role_page(request):
+    return render(request, 'rbac/role_table.html')
+
+
+# 角色树结构
+def role_tree(request):
+    response_data = role.role_all_tree(request)  # 获取role_json
+    return JsonResponse(response_data, safe=False)
+
+
+def role_change(request):
+    """
+    变更当前权限分配的角色
+    :param request:
+    :return: response_data
+    """
+    response_data = {}
+    roleNodes_list = json.loads(request.POST["applicants"])  # 反序列化request
+    per_id = roleNodes_list["per_id"]
+    roleAddNodes_list = roleNodes_list["roleAddNodes_list"]
+    roleDelNodes_list = roleNodes_list["roleDelNodes_list"]
+    role_del_result = role_add_result = True
+
+    if roleAddNodes_list:
+        role_per_deal = role.RolePerDeal(per_id, roleAddNodes_list)
+        role_add_result = role_per_deal.role_per_add()
+
+    if roleDelNodes_list:
+        role_per_deal = role.RolePerDeal(per_id, roleDelNodes_list)
+        role_del_result = role_per_deal.role_per_del()
+
+    if role_add_result and role_del_result:
+        response_data["result"] = 'true'
+        response_data["message"] = "权限修改完成！"
+    else:
+        response_data["result"] = 'false'
+        response_data["message"] = "权限修改失败，未知错误！"
+    return JsonResponse(response_data, safe=False)
+
+
+def per_role_list(request):
+    data = menu.role(request)
     return render(request, 'rbac/role_table.html')
 
 

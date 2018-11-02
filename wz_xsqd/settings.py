@@ -151,6 +151,8 @@ SAFE_URL = [
     # '/myadmin/.*',
     # '/test/',
     # '/rbac/index/',
+
+    # 后台
     '/rbac/login/',  # 登录
     '/rbac/logout/',  # 退出
     '/rbac/user_init_select/',  # 返回部门、角色select数据
@@ -161,6 +163,20 @@ SAFE_URL = [
     '/rbac/dep_edit/',  # 部门修改
     '/rbac/dep_del-(?P<nid>\d+)/',  # 部门删除
     '/rbac/dep_view-(?P<nid>\d+)/',  # 部门详情
+
+    # 角色、菜单、权限相关url
+    '/rbac/menu/',  # 菜单页
+    '/rbac/menu_tree/',  # 菜单树
+    '/rbac/menu_add/',  # 菜单增加
+    '/rbac/menu_edit/',  # 菜单修改
+    '/rbac/menu_del/',  # 菜单删除
+
+    '/rbac/role/',
+    '/rbac/role_tree/',  # 角色树
+    '/rbac/per_role_list/',  # 权限
+    '/rbac/role_change/',  # 权限
+
+    # 前台
     '/wzjt/return_car_list/',  # 返回车辆列表
     '/wzjt/return_detail_list/',  # 返回订单列表
     '/wzjt/add_vehicle/',  # 添加车辆信息
@@ -177,6 +193,8 @@ SAFE_URL = [
     '/wzjt/del_detail/',  # 删除订单
     '/wzjt/audit_detail/',  # 审核订单
     '/wzjt/settlement_detail/',  # 结算订单
+
+
    # '/wzjt/.*',
    # '^/rbac/',
 ]

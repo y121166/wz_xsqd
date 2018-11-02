@@ -11,8 +11,12 @@ import json
 import csv
 
 
-# DataTable获取车辆List
 def get_cx_tj(request):
+    """
+    DataTable获取车辆List
+    :param request:
+    :return:
+    """
     draw = request.POST.get("draw")  # 第几次访问
     dep_id = request.session['dep_id']  # 当前访问部门ID
     cx_vin = request.POST.get("cx_vin")  # vin
@@ -47,9 +51,13 @@ def get_cx_tj(request):
     return get_dic
 
 
-# 增加车辆信息
 @auth
 def add_vehicle(request):
+    """
+    增加车辆信息
+    :param request:
+    :return:
+    """
     vin = request.POST.get("vin")
     vehicle_type = request.POST.get("vehicle_type")
     six_yards = request.POST.get("six_yards")
@@ -74,9 +82,13 @@ def add_vehicle(request):
     return response_data
 
 
-# 修改车辆信息
 @auth
 def edit_vehicle(request):
+    """
+    修改车辆信息
+    :param request:
+    :return:
+    """
     dep_id = request.session['dep_id']
     id = request.POST.get("id")
     vehicle_type = request.POST.get("vehicle_type")

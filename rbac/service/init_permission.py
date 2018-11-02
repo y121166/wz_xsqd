@@ -10,16 +10,19 @@ def init_permission(request, user_obj):
     """
     permission_item_list = Role.objects.filter(id=user_obj.roles_id).values('permissions__url',
                                                                             'permissions__title',
-                                                                            'permissions__menu_id').distinct()
+                                                                            'permissions__menu_id',
+                                                                            'permissions__is_menu').distinct()
+    # print(permission_item_list)
 
     permission_url_list = []
     # 用户权限url列表，-->用户中间件验证用户权限
+
     permission_menu_list = []
     # 用户权限url所属菜单列表[{"title":xxx,"url":xxx,"menu_id":xxx,},{},]
 
     for item in permission_item_list:
         permission_url_list.append(item['permissions__url'])
-        if item['permissions__menu_id']:
+        if item['permissions__menu_id'] and item['permissions__is_menu']:
             temp = {"title": item["permissions__title"],
                     "url": item["permissions__url"],
                     "menu_id": item["permissions__menu_id"]}
@@ -38,3 +41,5 @@ def init_permission(request, user_obj):
         settings.ALL_MENU_KEY: menu_list,
         settings.PERMISSION_MENU_KEY: permission_menu_list,
     }
+    # print(menu_list)
+    # print(permission_menu_list)
