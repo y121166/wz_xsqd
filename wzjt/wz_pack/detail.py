@@ -1,4 +1,4 @@
-from rbac.models import DetailInfo, VehicleInfo
+from rbac.models import DetailInfo, VehicleInfo, DepField
 from .detail_lib import detail_create, detail_edit
 import datetime
 from .auth_login import auth
@@ -431,4 +431,118 @@ def settlement_detail(request):
     else:
         response_data['result'] = 'false'
         response_data['message'] = "数据不存在，请刷新后重试！"
+    return response_data
+
+
+@auth
+def detail_print(request, nid):
+    """
+    订单打印
+    :param request:
+    :param nid: 订单id
+    :return:
+    """
+    values_map = [
+        "id",
+        "vehicle",
+        "order_no",
+        "order_date",
+        "customer_name",
+        "customer_area",
+        "payment_way",
+        "payment_nper",
+        "transaction_price",
+        "security_deposit",
+        "replacement_subsidy",
+        "gift_je",
+        "time_fee",
+        "navigation_4G_fee",
+        "charging_fee",
+        "first_payment",
+        "financial_advisory_fee",
+        "personal_accident_insurance",
+        "mortgage_fee",
+        "fs_vps",
+        "labor_cost",
+        "ln_vps",
+        "free_mortgage_fee",
+        "installment_bond",
+        "glass_insurance",
+        "scratch_risk",
+        "theft_insurance",
+        "extension_insurance",
+        "listing_fee",
+        "value_added_package",
+        "maintenance_package",
+        "esc_potential_price",
+        "esc_procurement_price",
+        "earnest_money",
+        "status",
+        "department",
+        "remark",
+        "report_name",
+        "auditing_name",
+        "settlement_name",
+        "entry_date",
+        "submit_date",
+        "auditing_date",
+        "settlement_date",
+        "lc_ysk_xj",
+        "yp_ysk_xj",
+        "jr_ysk_xj",
+        "bx_ysk_xj",
+        "zzb_ysk_xj",
+        "ysk_xx",
+        "deductions_xj",
+        "skzj_xx",
+        "dkje_xx",
+        "sales_consultant",
+
+        # 以下为表关联字段信息
+        "vehicle__vin",
+        "vehicle",
+        "vehicle__vehicle_type",
+        "vehicle__six_yards",
+        "vehicle__guidance_price",
+        "report_name__last_name",
+        "auditing_name__last_name",
+        "settlement_name__last_name",
+        "department__title"
+    ]
+    response_data = {}
+    dep_id = request.session['dep_id']
+    #max_len = 6
+    #fill_list = lambda l: l + [0] * (max_len - len(l))
+
+    # 获取副表字段
+    try:
+        dep_field = list(DepField.objects.filter(department=dep_id).values("field_str"))
+        dep_field_result = True
+        #if dep_field:
+            #response_data['dep_field'] = fill_list(dep_field[0]["field_str"].split(","))
+        #else:
+        response_data['dep_field'] = dep_field[0]["field_str"]
+    except Exception as e:
+        dep_field_result = False
+        print(e)
+
+    try:
+        detail_list = list(
+            DetailInfo.objects.filter(id=nid).values(*values_map))
+        detail_list_result = True
+
+    except Exception as e:
+        detail_list_result = False
+        print(e)
+
+    if dep_field_result and detail_list_result:
+        response_data['result'] = 'true'
+        response_data['detaildata'] = detail_list[0]
+
+    else:
+        print(dep_field_result)
+        print(detail_list_result)
+        response_data['result'] = 'false'
+        response_data['message'] = '数据获取失败，请重试！'
+    # print(response_data)
     return response_data

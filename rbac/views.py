@@ -1,7 +1,8 @@
 from django.conf import settings
 from django.http import HttpResponse
+from django.db.models import Q
 from django.shortcuts import render, redirect, reverse
-from .models import UserInfo, Department, Role
+from .models import UserInfo, Department, Role, DepField
 import json
 from rbac.service.init_permission import init_permission
 from django.http import JsonResponse
@@ -145,20 +146,44 @@ def dep_table(request):
     else:
         title = request.POST.get("title")
         dep_code = request.POST.get("dep_code")
-        print(dep_code)
+        print_str = request.POST.get("print_checkbox_str")
+        # print(dep_code)
         response_data = {}
+
+        # 判定title是否存在
+        dep_title = Department.objects.filter(title=title).first()
+        if dep_title:
+            response_data['result'] = 'false'
+            response_data['message'] = '部门 “%s” 已存在，请修改！' % title
+            return JsonResponse(response_data, safe=False)
+
+        # 判定简写是否存在
+        dep_dep_code = Department.objects.filter(dep_code=dep_code).first()
+        if dep_dep_code:
+            response_data['result'] = 'false'
+            response_data['message'] = '部门简写 “%s” 已存在，请修改！' % dep_code
+            return JsonResponse(response_data, safe=False)
+
         try:
-            Department.objects.create(title=title, dep_code=dep_code)
-            response_data['result'] = 'Success'
+            dep_obj = Department.objects.create(title=title, dep_code=dep_code)
+            DepField.objects.create(field_str=print_str, department=dep_obj)
+            # print(dep_obj.id)
+            response_data['result'] = 'true'
+            response_data['message'] = '%s 创建完成！' % title
         except Exception as e:
-            response_data['result'] = 'Error'
+            response_data['result'] = 'false'
+            response_data['message'] = '未知错误，请联系管理员!'
+            print(e)
         return JsonResponse(response_data, safe=False)
 
 
 # 部门列表详情
 @auth
 def dep_view(request, nid):
-    dep_obj = list(Department.objects.filter(id=nid).all().values('id', 'title', 'dep_code'))
+    dep_obj = list(Department.objects.filter(id=nid).all().values('id', 'title', 'dep_code', 'depfield__field_str'))
+
+    # print(dep_obj)
+
     response_data = {}
     try:
         response_data['dep_info'] = json.dumps(dep_obj, ensure_ascii=False)
@@ -175,13 +200,24 @@ def dep_view(request, nid):
 def dep_edit(request):
     id = request.POST.get("id")
     title = request.POST.get("title")
+    print_str = request.POST.get("print_checkbox_str")
     response_data = {}
+
+    dep_obj = Department.objects.filter(id=id).first()
+    if not dep_obj:
+        response_data['result'] = 'false'
+        response_data['message'] = '%s 不存在，请确认！' % title
+        return JsonResponse(response_data, safe=False)
+
     try:
         Department.objects.filter(id=id).update(title=title)
-        response_data['result'] = 'Success'
+        DepField.objects.filter(department=id).update(field_str=print_str)
+        response_data['result'] = 'true'
+        response_data['message'] = '%s 修改完成！' % title
     except Exception as e:
-        response_data['result'] = 'Error'
-
+        response_data['result'] = 'false'
+        response_data['message'] = '未知错误，请联系管理员！'
+        print(e)
     return JsonResponse(response_data, safe=False)
 
 

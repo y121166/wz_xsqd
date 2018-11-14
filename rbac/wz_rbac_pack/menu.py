@@ -50,7 +50,7 @@ def menu_all_tree(request):
         for menu_key in menu_list:
             menu_tree_list.append(
                 {"id": menu_key["id"], "name": menu_key["title"], "menu_name":menu_key["title"], "pid": menu_key["parent_id"],
-                 "fieldType": "menu", "open": True})
+                 "fieldType": "menu", "open": False})
 
         for per_key in permission_list:
             menu_tree_list.append(

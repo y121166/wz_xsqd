@@ -156,20 +156,20 @@ SAFE_URL = [
     '/rbac/login/',  # 登录
     '/rbac/logout/',  # 退出
     '/rbac/user_init_select/',  # 返回部门、角色select数据
-    '/rbac/user_Edit/',  # 用户修改
-    '/rbac/user_del-(?P<nid>\d+)/',  # 用户删除
-    '/rbac/user_view-(?P<nid>\d+)/',  # 用户详情
-    '/rbac/edit_psw/',  # 修改密码
-    '/rbac/dep_edit/',  # 部门修改
-    '/rbac/dep_del-(?P<nid>\d+)/',  # 部门删除
-    '/rbac/dep_view-(?P<nid>\d+)/',  # 部门详情
+    # '/rbac/user_Edit/',  # 用户修改
+    # '/rbac/user_del-(?P<nid>\d+)/',  # 用户删除
+    # '/rbac/user_view-(?P<nid>\d+)/',  # 用户详情
+    # '/rbac/edit_psw/',  # 修改密码
+    # '/rbac/dep_edit/',  # 部门修改
+    # '/rbac/dep_del-(?P<nid>\d+)/',  # 部门删除
+    # '/rbac/dep_view-(?P<nid>\d+)/',  # 部门详情
 
     # 角色、菜单、权限相关url
-    '/rbac/menu/',  # 菜单页
-    '/rbac/menu_tree/',  # 菜单树
-    '/rbac/menu_add/',  # 菜单增加
-    '/rbac/menu_edit/',  # 菜单修改
-    '/rbac/menu_del/',  # 菜单删除
+    # '/rbac/menu/',  # 菜单页
+    # '/rbac/menu_tree/',  # 菜单树
+    # '/rbac/menu_add/',  # 菜单增加
+    # '/rbac/menu_edit/',  # 菜单修改
+    # '/rbac/menu_del/',  # 菜单删除
 
     '/rbac/role/',
     '/rbac/role_tree/',  # 角色树
@@ -177,23 +177,23 @@ SAFE_URL = [
     '/rbac/role_change/',  # 权限
 
     # 前台
-    '/wzjt/return_car_list/',  # 返回车辆列表
-    '/wzjt/return_detail_list/',  # 返回订单列表
-    '/wzjt/add_vehicle/',  # 添加车辆信息
-    '/wzjt/edit_vehicle/',  # 修改车辆信息
-    '/wzjt/del_vehicle/',  # 删除车辆信息
-    '/wzjt/vehicle_info-(?P<nid>\d+)/',  # 车辆详情
+    # '/wzjt/return_car_list/',  # 返回车辆列表
+    # '/wzjt/return_detail_list/',  # 返回订单列表
+    # '/wzjt/add_vehicle/',  # 添加车辆信息
+    # '/wzjt/edit_vehicle/',  # 修改车辆信息
+    # '/wzjt/del_vehicle/',  # 删除车辆信息
+    # '/wzjt/vehicle_info-(?P<nid>\d+)/',  # 车辆详情
     '/wzjt/vehicle_import/',  # 车辆导入
-    '/wzjt/vehicle_down/',  # 车辆导入模板下载
-    '/wzjt/get_vehicle_vin/',  # 返回车辆VIN，订单填写VIN使用
-    '/wzjt/add_detail/',  # 新增订单
-    '/wzjt/edit_detail/',  # 修改订单
-    '/wzjt/info_detail-(?P<nid>\d+)/',  # 订单详情
-    '/wzjt/withdraw_detail/',  # 撤回订单
-    '/wzjt/del_detail/',  # 删除订单
-    '/wzjt/audit_detail/',  # 审核订单
-    '/wzjt/settlement_detail/',  # 结算订单
-
+    # '/wzjt/vehicle_down/',  # 车辆导入模板下载
+    # '/wzjt/get_vehicle_vin/',  # 返回车辆VIN，订单填写VIN使用
+    # '/wzjt/add_detail/',  # 新增订单
+    # '/wzjt/edit_detail/',  # 修改订单
+    # '/wzjt/info_detail-(?P<nid>\d+)/',  # 订单详情
+    # '/wzjt/withdraw_detail/',  # 撤回订单
+    # '/wzjt/del_detail/',  # 删除订单
+    # '/wzjt/audit_detail/',  # 审核订单
+    # '/wzjt/settlement_detail/',  # 结算订单
+    '/wzjt/detail_print-(?P<nid>\d+)/',  # 订单打印
 
    # '/wzjt/.*',
    # '^/rbac/',

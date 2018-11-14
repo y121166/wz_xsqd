@@ -96,7 +96,9 @@ class VehicleInfo(models.Model):
 
 
 class DetailInfo(models.Model):
-    """销售订单信息"""
+    """
+    销售订单信息表
+    """
     vehicle = models.ForeignKey("VehicleInfo", on_delete=models.CASCADE)
     order_no = models.CharField(max_length=20, unique=True)  # 订单唯一编号
     order_date = models.DateField()  # 订单日期
@@ -173,6 +175,9 @@ class DetailInfo(models.Model):
 
 
 class DetailMaxNo(models.Model):
+    """
+    订单最大编码表    按照部门进行
+    """
     department = models.ForeignKey("Department", on_delete=models.CASCADE)  # 用户与部门对应关系
     date = models.CharField(max_length=6)
     max_no = models.PositiveIntegerField()
@@ -183,3 +188,19 @@ class DetailMaxNo(models.Model):
 
     def __str__(self):
         return self.max_no
+
+
+class DepField(models.Model):
+    """
+    部门与表单字段对应表
+    说明：每个部门打印时的，主表与副表区分
+    """
+    field_str = models.CharField(max_length=1000)
+    department = models.ForeignKey("Department", on_delete=models.CASCADE)  # 部门表外键
+
+    class Meta:
+        db_table = "wz_dep_field"
+
+    def __str__(self):
+        return self.field_str
+

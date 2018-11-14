@@ -134,22 +134,6 @@ def get_menu_html(menu_data):
                 </li>
             """
 
-    """
-     menu_data = [
-        {'id': 1, 'title': '订单管理', 'parent_id': None, 'status': True, 'open': False,
-         'children': [{'title': '查看订单', 'url': '/order', 'menu_id': 1, 'status': True, 'open': False}]},
-        {'id': 2, 'title': '库存管理', 'parent_id': None, 'status': True, 'open': True,
-         'children': [{'title': '查看库存清单', 'url': '/stock/detail', 'menu_id': 2, 'status': True, 'open': False},
-                      {'title': '入库', 'url': '/stock/in', 'menu_id': 2, 'status': True, 'open': True}]},
-        {'id': 3, 'title': '生产管理', 'parent_id': None, 'status': True, 'open': False,
-         'children': [{'title': '查看生产订单', 'url': '/produce/detail', 'menu_id': 3, 'status': True, 'open': False},
-                      {'title': '排单', 'url': '/produce/new', 'menu_id': 3, 'status': True, 'open': False}]},
-        {'id': 4, 'title': '生产调查', 'parent_id': None, 'status': True, 'open': False,
-         'children': [{'title': '产出管理', 'url': '/survey/produce', 'menu_id': 4, 'status': True, 'open': False},
-                      {'title': '工时管理', 'url': '/survey/labor', 'menu_id': 4, 'status': True, 'open': False}]}
-    ]
-    """
-
     menu_html = ''
     for item in menu_data:
         if not item['status']:  # 如果用户权限不在某个菜单下，即item['status']=False, 不显示

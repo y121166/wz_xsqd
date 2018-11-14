@@ -5,6 +5,8 @@ from wzjt.wz_pack import vehicle
 from wzjt.wz_pack import detail
 from wzjt.wz_pack.auth_login import auth
 
+from django.template import Context, Template
+
 
 # Create your views here.
 # 首页信息
@@ -99,6 +101,11 @@ def detail_audit_page(request):
 def detail_settlement_page(request):
     return render(request, 'wzjt/xsdetail_settlement_table.html')
 
+
+# 订单打印
+def detail_print(request, nid):
+    response_data = detail.detail_print(request, nid)
+    return render(request, 'wzjt/detail_print.html', response_data)
 
 # ajax初始化订单列表
 @auth

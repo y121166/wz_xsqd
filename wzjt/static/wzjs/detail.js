@@ -428,7 +428,7 @@
                 globalStyles:true,
                 deferred: $.Deferred(),
                 iframe:true,
-                stylesheet:
+                stylesheet:""
             });
         }
 
@@ -605,24 +605,24 @@
                             switch (row.status){
                                 case 0:
                                     caoz_html = '<div class="visible-md visible-lg hidden-sm hidden-xs action-buttons">\n' +
-                                        '<a class="blue" href="#modal-view" data-toggle="modal" title="详情" data_id="info_detail-'+row.id+'" name="detail_view" >\n' +
-                                        '<i class="icon-zoom-in bigger-130"></i>\n' +
-                                        '</a>'+
-                                         '<a class="green" href="#modal-edit" data-toggle="modal" title="编辑" data_id="info_detail-'+row.id+'" name="detail_edit" >' +
+                                        '<a class="green" href="#modal-edit" data-toggle="modal" title="编辑" data_id="info_detail-'+row.id+'" name="detail_edit" >' +
                                         '<i class="icon-pencil bigger-130"></i>' +
                                         '</a>' +
                                         '<a class="red" href="javascript:void(0);" title="废弃" data_id="'+row.id+'" name="detail_del" >' +
                                         '<i class="icon-trash bigger-130"></i>' +
                                         '</a>' +
+                                        '<a class="blue" href="/wzjt/detail_print-' + row.id + '/" target="_blank" title="打印" data_id="'+row.id+'" name="detail_print" >' +
+                                        '<i class="icon-print bigger-130"></i>' +
+                                        '</a>' +
                                         '</div>';
                                     break;
                                 case 1:
                                     caoz_html = '<div class="visible-md visible-lg hidden-sm hidden-xs action-buttons">\n' +
-                                        '<a class="blue" href="#modal-view" data-toggle="modal" data_id="info_detail-'+row.id+'" title="详情" name="detail_view" >\n' +
-                                        '<i class="icon-zoom-in bigger-130"></i>\n' +
-                                        '</a>'+
                                         '<a class="red" href="javascript:void(0);" title="撤回" data_id="'+row.id+'" name="detail_withdraw" >' +
                                         '<i class="icon-undo bigger-130"></i>' +
+                                        '</a>' +
+                                        '<a class="blue" href="/wzjt/detail_print-' + row.id + '/" target="_blank" title="打印" data_id="'+row.id+'" name="detail_print" >' +
+                                        '<i class="icon-print bigger-130"></i>' +
                                         '</a>' +
                                         '</div>';
                                     break;

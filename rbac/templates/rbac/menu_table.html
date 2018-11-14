@@ -192,7 +192,9 @@
                 }
             },
             callback:{
-                onClick:zTreeOnCheck
+                onClick:zTreeOnCheck,
+                beforeExpand:beforeExpand,
+                onExpand:onExpand,
             }
         };
 
@@ -322,16 +324,15 @@
                 switch_show.parents(".form-group").show();
                 $("#delButton").show();
 
-                console.log(treeNode);
-
                 menuName.val(treeNode.per_name);
                 menuName.attr("value",treeNode.per_id);
                 menuUrl.val(treeNode.perUrl);
                 switch_show.prop("checked",treeNode.is_menu);
 
-                //选中的节点对应的父节点id
+                //选中的节点对应的上级节点id
                 var pid = menu_zTreeObj.getNodesByParam("id",treeNode.getParentNode().id,null);
                 menu_zTreeObj.checkNode(pid[0],true,null,true);
+                menu_zTreeObj.selectNode(pid[0],false,);
 
                 menuPName.val(treeNode.getParentNode().name);
 
@@ -428,7 +429,7 @@
 			//console.log(cityOffset);
 			$("#menuContent").css({left:cityOffset.left + "px", top:cityOffset.top-15 + "px"}).slideDown("fast");
 			//$("#menuContent").offset({top:cityOffset.top,left:cityOffset.left}).slideDown("fast");
-            menu_initzTree();
+            //menu_initzTree();
 
 			$("body").bind("mousedown", onBodyDown);
 		}
@@ -505,6 +506,9 @@
                                     var refresh_tree = $.fn.zTree.getZTreeObj("menuTree");
                                     refresh_tree.reAsyncChildNodes(null, "refresh");
                                     addButton();
+                                    if (role_zTreeObj){
+                                        role_zTreeObj.destroy();
+                                    }
                                 }else {
                                     layer.alert(data.message,{
                                         icon:7,
@@ -519,8 +523,6 @@
 
                     }
              );
-
-
         }
 
         //详情-保存按钮
@@ -557,6 +559,84 @@
                 },
             });
         }
+
+        var curExpandNode = null;
+		function beforeExpand(treeId, treeNode) {
+			var pNode = curExpandNode ? curExpandNode.getParentNode():null;
+			var treeNodeP = treeNode.parentTId ? treeNode.getParentNode():null;
+			var menuTree = $.fn.zTree.getZTreeObj("menuTree");
+			for(var i=0, l=!treeNodeP ? 0:treeNodeP.children.length; i<l; i++ ) {
+				if (treeNode !== treeNodeP.children[i]) {
+					menuTree.expandNode(treeNodeP.children[i], false);
+				}
+			}
+			while (pNode) {
+				if (pNode === treeNode) {
+					break;
+				}
+				pNode = pNode.getParentNode();
+			}
+			if (!pNode) {
+				singlePath(treeNode);
+			}
+
+		}
+		function singlePath(newNode) {
+			if (newNode === curExpandNode) return;
+
+            var menuTree = $.fn.zTree.getZTreeObj("menuTree"),
+                    rootNodes, tmpRoot, tmpTId, i, j, n;
+
+            if (!curExpandNode) {
+                tmpRoot = newNode;
+                while (tmpRoot) {
+                    tmpTId = tmpRoot.tId;
+                    tmpRoot = tmpRoot.getParentNode();
+                }
+                rootNodes = menuTree.getNodes();
+                for (i=0, j=rootNodes.length; i<j; i++) {
+                    n = rootNodes[i];
+                    if (n.tId != tmpTId) {
+                        menuTree.expandNode(n, false);
+                    }
+                }
+            } else if (curExpandNode && curExpandNode.open) {
+				if (newNode.parentTId === curExpandNode.parentTId) {
+					menuTree.expandNode(curExpandNode, false);
+				} else {
+					var newParents = [];
+					while (newNode) {
+						newNode = newNode.getParentNode();
+						if (newNode === curExpandNode) {
+							newParents = null;
+							break;
+						} else if (newNode) {
+							newParents.push(newNode);
+						}
+					}
+					if (newParents!=null) {
+						var oldNode = curExpandNode;
+						var oldParents = [];
+						while (oldNode) {
+							oldNode = oldNode.getParentNode();
+							if (oldNode) {
+								oldParents.push(oldNode);
+							}
+						}
+						if (newParents.length>0) {
+							menuTree.expandNode(oldParents[Math.abs(oldParents.length-newParents.length)-1], false);
+						} else {
+							menuTree.expandNode(oldParents[oldParents.length-1], false);
+						}
+					}
+				}
+			}
+			curExpandNode = newNode;
+		}
+
+		function onExpand(event, treeId, treeNode) {
+			curExpandNode = treeNode;
+		}
 
 		//menu初始化
         function menu_initzTree(){

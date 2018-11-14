@@ -176,8 +176,8 @@ function Format(fmt) {
     return fmt;
 };
 
-//读取excel文件
 
+//读取excel文件
 function checkExcel(obj) {
     var req = new Array();
     req['status'] = true;
@@ -211,6 +211,7 @@ function checkExcel(obj) {
     return req;
 }
 
+//上传excel
 function importExcel(obj, ajax_url) {
     var wb;//读取完成的数据
     var data;//返回的数据
@@ -334,45 +335,63 @@ function importExcel(obj, ajax_url) {
     };
 }
 
-//自定义modal内容封装
 
-// function setModal(data) {
-//     //初始化
-//     var modal = "<div  id='" + data.modalId + "' class='modal fade' tabindex='-1'><div class='modal-dialog'  style='width: 95%'> <div class='modal-content'> <div class='modal-header'> <button type='button' class='close' data-dismiss='modal'><i class='icon-close bigger-110'></i></button><h4 class='modal-title' id='myModalLabel'>" + data.title + "</h4> </div> <div class='modal-body  overflow-visible'> </div> <div class='modal-footer'></div></div></div></div>";
-//     $("#" + data.appendId).empty();
-//     $("#" + data.appendId).append(modal);
-//
-//     //加载一个页面的内容
-//     if (data.loadUrl != "null") {
-//         var form2 = "<form id='" + data.formId + "'>  </form>";
-//         $("#" + data.modalId + " .modal-body").append(form2);
-//         $("#" + data.formId).load(data.loadUrl, data.loadParas);
-//     }
-//     else {
-//         //获取数据，并填充table
-//         var form2 = "<form id='" + data.formId + "' action='" + data.postUrl + "' method='post' >";
-//         for (var i = 0; i < data.cols.length; i++) {
-//             form2 += " <div > <label  >" + data.cols[i]["displayName"] + "</label> <input type='text' class='form-control' name='" + data.cols[i]["fieldName"] + "' placeholder=''> </div>";
-//         }
-//         form2 += "</form>";
-//         $("#" + data.modalId + " .modal-body").append(form2);
-//     }
-//     $("#" + data.modalId).modal('show');
-//     $("#btn-" + data.modalId).click(function ()
-//     {
-//         $.post(data.postUrl, $("#" + data.formId).serialize(), function (data) {
-//             if (data == "ok") {
-//                 alert("添加成功");
-//             }
-//             else {
-//                 alert("添加失败");
-//             }
-//         });
-//
-//     });
-//
-//     $("#btn-close" + data.modalId).click(function () {
-//         //data.close();
-//     });
-// }
+//打印计算小计及总计
+function print_xj_zj(tr){
+    //小计
+    var je_list = new Array();
+    var sum = 0;
+    $("#" + tr + " .mingx").each(function () {
+        je_list.push(parseFloat($(this).text()));
+    });
 
+    for(var i = 0; i < je_list.length; i++){
+        sum += je_list[i];
+    }
+    $("#" + tr + " .xiaoj").text(sum.toFixed(2));
+}
+
+//主表总计
+function print_zb_zj(fenqi) {
+
+    var lc_ysk_xj = parseFloat( $("#lc_ysk_xj").text() );
+    var yp_ysk_xj = parseFloat($("#yp_ysk_xj").text());
+    var jr_ysk_xj = parseFloat($("#jr_ysk_xj").text());
+    var bx_ysk_xj = parseFloat($("#bx_ysk_xj").text());
+    var zzb_ysk_xj = parseFloat($("#zzb_ysk_xj").text());
+    var transaction_price = parseFloat($("#transaction_price").text());
+
+    var jx_xj = parseFloat($("#jx_xj").text());
+
+    if(fenqi == 1){
+        var ysk_xx = lc_ysk_xj+yp_ysk_xj+jr_ysk_xj+bx_ysk_xj+zzb_ysk_xj-transaction_price;
+        $("#ysk_xx").text(ysk_xx.toFixed(2));
+        $("#ysk_dx").text(chineseNumber(ysk_xx));
+
+        var print_skzj = ysk_xx - jx_xj;
+        $("#print_skzj").text(print_skzj.toFixed(2));
+        $("#print_skzj_dx").text(chineseNumber(print_skzj));
+    }else {
+        var ysk_xx = lc_ysk_xj+yp_ysk_xj+jr_ysk_xj+bx_ysk_xj+zzb_ysk_xj;
+        $("#ysk_xx").text(ysk_xx.toFixed(2));
+        $("#ysk_dx").text(chineseNumber(ysk_xx));
+
+        var print_skzj = ysk_xx - jx_xj;
+        $("#print_skzj").text(print_skzj.toFixed(2));
+        $("#print_skzj_dx").text(chineseNumber(print_skzj));
+    }
+}
+
+//副表总计
+function print_fb_zj(fenqi) {
+    var print_skzj = parseFloat($("#print_skzj").text());
+    var fb_jx_xj = parseFloat($("#fb_jx_xj").text());
+
+    var fb_xj = parseFloat($("#fb_xj").text());
+    $("#fb_hj").text(fb_xj.toFixed(2));
+    $("#fb_hj_dx").text(chineseNumber(fb_xj));
+
+    var zc_skzj_xx = print_skzj+fb_xj-fb_jx_xj;
+    $("#zc_skzj_xx").text(zc_skzj_xx.toFixed(2));
+    $("#zc_skzj_dx").text(chineseNumber(zc_skzj_xx));
+}

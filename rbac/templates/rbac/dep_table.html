@@ -7,6 +7,7 @@
 		<link rel="stylesheet" href="{{ STATIC_URL }}assets/css/bootstrap-timepicker.css" />
 		<link rel="stylesheet" href="{{ STATIC_URL }}assets/css/daterangepicker.css" />
 		<link rel="stylesheet" href="{{ STATIC_URL }}assets/css/colorpicker.css" />
+		<link rel="stylesheet" href="{{ STATIC_URL }}z-tree/css/zTreeStyle.css" />
 {% endblock pagestyle %}
 
 {% block context %}
@@ -44,7 +45,7 @@
             <!--查询条件div-->
             <div class="row">
                 <div class="col-xs-12">
-                    <div class="widget-box">
+                    <div class="widget-box collapsed">
                         <a href="#" data-action="collapse">
                             <div class="widget-header">
                                 <h5>查询条件</h5>
@@ -199,7 +200,7 @@
                         <div class="col-xs-12">
                         <!-- PAGE CONTENT BEGINS -->
 
-                            <form id="user_form" class="form-horizontal" role="form">
+                            <form id="dep_edit_form" class="form-horizontal" role="form">
 
                                 <div class="form-group">
                                     <label class="col-sm-3 control-label no-padding-right" for="form-input-readonly"> 部门ID </label>
@@ -225,6 +226,73 @@
                                     </div>
                                 </div>
 
+                                <!--todo 打印设置-->
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label no-padding-right" for="form-field-3">
+                                        打印选项
+                                        <label href="" class="tooltip-test" data-toggle="tooltip" title="在单据打印时会将销售单分为上下两页！选中的项目，会显示在子销售单页！">
+                                            <i class="icon-question-sign red"></i>
+                                        </label>
+                                    </label>
+                                    <div class="col-sm-9">
+                                        <div class="col-sm-9 checkbox" id="edit_print_checkbox">
+                                            <label>
+                                                <input name="financial_advisory_fee" type="checkbox" class="ace" value="financial_advisory_fee">
+                                                <span class="lbl"> 金融咨询费 </span>
+                                            </label>
+
+                                            &nbsp;&nbsp;
+
+                                            <label>
+                                                <input name="mortgage_fee" type="checkbox" class="ace" value="mortgage_fee">
+                                                <span class="lbl"> 抵押费 </span>
+                                            </label>
+
+                                            &nbsp;&nbsp;
+
+                                            <label>
+                                                <input name="fs_ln_vps" type="checkbox" class="ace" value="fs_vps,ln_vps">
+                                                <span class="lbl"> VPS </span>
+                                            </label>
+
+                                             &nbsp;&nbsp;
+
+                                            <label>
+                                                <input name="glass_insurance" type="checkbox" class="ace" value="glass_insurance">
+                                                <span class="lbl"> 玻璃险 </span>
+                                            </label>
+
+                                             &nbsp;&nbsp;
+
+                                            <label>
+                                                <input name="scratch_risk" type="checkbox" class="ace" value="scratch_risk">
+                                                <span class="lbl"> 划痕险 </span>
+                                            </label>
+
+                                             &nbsp;&nbsp;
+
+                                            <label>
+                                                <input name="theft_insurance" type="checkbox" class="ace" value="theft_insurance">
+                                                <span class="lbl"> 盗抢险 </span>
+                                            </label>
+
+                                             &nbsp;&nbsp;
+
+                                            <label>
+                                                <input name="esc_potential_price" type="checkbox" class="ace" value="esc_potential_price">
+                                                <span class="lbl"> 二手车评估价 </span>
+                                            </label>
+
+                                            &nbsp;&nbsp;
+
+                                            <label>
+                                                <input name="esc_procurement_price" type="checkbox" class="ace" value="esc_procurement_price">
+                                                <span class="lbl"> 二手车收购价 </span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+
                                 <div class="modal-footer form-actions">
                                     <div class="col-md-offset-3 col-md-9">
                                         <button class="btn btn-sm btn-primary" type="button" onclick="submit_dep()">
@@ -246,7 +314,6 @@
         </div><!-- /.modal-dialog -->
     </div><!-- PAGE CONTENT ENDS -->
 
-
     <!--增加部门Modal-->
     <div id="modal-add" class="modal" tabindex="-1">
         <div class="modal-dialog">
@@ -261,13 +328,13 @@
                         <div class="col-xs-12">
                         <!-- PAGE CONTENT BEGINS -->
 
-                            <form id="user_form" class="form-horizontal" role="form">
+                            <form id="dep_add_form" class="form-horizontal" role="form">
 
                                 <div class="form-group">
                                     <label class="col-sm-3 control-label no-padding-right" for="form-field-3"> 部门名称 </label>
 
                                     <div class="col-sm-9">
-                                        <input type="text" class="col-xs-10 col-sm-5" placeholder="部门名称" id="add_dep_name" />
+                                        <input type="text" class="col-xs-10 col-sm-7" placeholder="部门名称" id="add_dep_name" />
                                     </div>
                                 </div>
 
@@ -275,7 +342,74 @@
                                     <label class="col-sm-3 control-label no-padding-right" for="form-field-3"> 部门简写 </label>
 
                                     <div class="col-sm-9">
-                                        <input type="text" class="col-xs-10 col-sm-5" placeholder="部门简写" id="add_dep_code" />
+                                        <input type="text" class="col-xs-10 col-sm-7" placeholder="部门简写" id="add_dep_code" />
+                                    </div>
+                                </div>
+
+                                <!--todo 打印设置-->
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label no-padding-right" for="form-field-3">
+                                        打印选项
+                                        <label href="" class="tooltip-test" data-toggle="tooltip" title="在单据打印时会将销售单分为上下两页！选中的项目，会显示在子销售单页！">
+                                            <i class="icon-question-sign red"></i>
+                                        </label>
+                                    </label>
+                                    <div class="col-sm-9">
+                                        <div class="col-sm-9 checkbox" id="print_checkbox">
+                                            <label>
+                                                <input type="checkbox" class="ace" value="financial_advisory_fee">
+                                                <span class="lbl"> 金融咨询费 </span>
+                                            </label>
+
+                                            &nbsp;&nbsp;
+
+                                            <label>
+                                                <input type="checkbox" class="ace" value="mortgage_fee">
+                                                <span class="lbl"> 抵押费 </span>
+                                            </label>
+
+                                            &nbsp;&nbsp;
+
+                                            <label>
+                                                <input type="checkbox" class="ace" value="fs_vps,ln_vps">
+                                                <span class="lbl"> VPS </span>
+                                            </label>
+
+                                             &nbsp;&nbsp;
+
+                                            <label>
+                                                <input type="checkbox" class="ace" value="glass_insurance">
+                                                <span class="lbl"> 玻璃险 </span>
+                                            </label>
+
+                                             &nbsp;&nbsp;
+
+                                            <label>
+                                                <input type="checkbox" class="ace" value="scratch_risk">
+                                                <span class="lbl"> 划痕险 </span>
+                                            </label>
+
+                                             &nbsp;&nbsp;
+
+                                            <label>
+                                                <input type="checkbox" class="ace" value="theft_insurance">
+                                                <span class="lbl"> 盗抢险 </span>
+                                            </label>
+
+                                             &nbsp;&nbsp;
+
+                                            <label>
+                                                <input type="checkbox" class="ace" value="esc_potential_price">
+                                                <span class="lbl"> 二手车评估价 </span>
+                                            </label>
+
+                                            &nbsp;&nbsp;
+
+                                            <label>
+                                                <input type="checkbox" class="ace" value="esc_procurement_price">
+                                                <span class="lbl"> 二手车收购价 </span>
+                                            </label>
+                                        </div>
                                     </div>
                                 </div>
 
@@ -307,81 +441,130 @@
     <script src="{{ STATIC_URL }}assets/js/jquery.dataTables.bootstrap.js"></script>
     <!-- inline scripts related to this page -->
     <script type="text/javascript">
-        //部门删除事件
-        function submit_del_dep(){
-            var id = $("#username_id").val();
-            var username = $("#username_form").val();
-            var last_name = $("#last_name").val();
-            var dep_select = $("#dep_select").val();
-            var roles_select = $("#roles_select").val();
-            //console.log(username,last_name,dep_select,roles_select)
-            $.ajax({
-                url:"/rbac/user_Edit/",
-                type:"POST",
-                dataType:'json',
-                data:{"id":id,"username":username,"last_name":last_name,"dep_select":dep_select,"roles_select":roles_select},
-                async:false,
-                success:function (data,status) {
-                    layer.msg('用户修改成功!');
-                    setTimeout(function(){window.location.reload()}, 100);
-                },
-                fail:function (err,status) {
-                    alert("用户修改失败！");
-                    console.log(err);
-                },
-            });
-        }
+
         //部门修改事件
         function submit_dep(){
             var id = $("#dep_id").val();
             var title = $("#dep_name").val();
-            //console.log(username,last_name,dep_select,roles_select)
+            var print_checkbox_str = '';
+
+            if(title == '' || dep_code == ''){
+                alert("部门名称或部门简写不能为空！");
+                return;
+            }
+
+            //获取选中的checkbox
+            $.each($("#edit_print_checkbox input:checkbox"),function () {
+                if(this.checked){
+                    if(print_checkbox_str == ''){
+                        print_checkbox_str = this.value;
+                    }else {
+                        print_checkbox_str = print_checkbox_str + ',' + this.value;
+                    }
+                }
+            });
+
+            //console.log(title)
             $.ajax({
                 url:"/rbac/dep_edit/",
                 type:"POST",
                 dataType:'json',
-                data:{"id":id,"title":title},
+                data:{"id":id,"title":title,'print_checkbox_str':print_checkbox_str},
                 async:false,
                 beforeSend:function(){
                     var index = layer.load(1,{shade:false});
                 },
-                success:function (data,status) {
+                success:function (data) {
+                    //console.log(data);
                     layer.close(layer.index);
-                    setTimeout(function(){layer.msg('提交成功!');}, 100);
-                    window.location.reload()
+                    layer.msg(data.message);
+                    if (data.result == 'true'){
+                        layer.alert(data.message, {
+                          skin: 'layui-layer-molv' //样式类名
+                          ,closeBtn: 0,icon: 1,
+                        }, function(){
+                          window.location.reload();
+                        });
+                    }else {
+                        layer.alert(data.message, {
+                            closeBtn: 0,
+                            icon: 2,
+                        });
+                    }
                 },
-                fail:function (err,status) {
+                error:function (err,status) {
                     layer.close(layer.index);
-                    setTimeout(function(){layer.msg('提交失败!');}, 100);
-                    console.log(err);
+                    layer.msg('提交失败!');
+                    //console.log(err);
                 },
             });
         }
-
         //部门添加事件
         function submit_add_dep(){
             var title = $("#add_dep_name").val();
             var dep_code = $("#add_dep_code").val();
-            //console.log(username,last_name,dep_select,roles_select)
+            var print_checkbox_str = '';
+
+            if(title == '' || dep_code == ''){
+                layer.alert("部门名称或部门简写不能为空！", {
+                  closeBtn: 0,icon: 2,
+                });
+                return;
+            }
+
+            //获取选中的checkbox
+            $.each($("#print_checkbox input:checkbox"),function () {
+                if(this.checked){
+                    if(print_checkbox_str == ''){
+                        print_checkbox_str = this.value;
+                    }else {
+                        print_checkbox_str = print_checkbox_str + ',' + this.value;
+                    }
+                }
+            });
+
             $.ajax({
                 url:"/rbac/dep/",
                 type:"POST",
                 dataType:'json',
-                data:{"title":title,"dep_code":dep_code},
+                data:{"title":title,"dep_code":dep_code,"print_checkbox_str":print_checkbox_str},
                 async:false,
                 beforeSend:function(){
                     var index = layer.load(1,{shade:false});
                 },
-                success:function (data,status) {
+                success:function (data) {
                     layer.close(layer.index);
-                    setTimeout(function(){layer.msg('提交成功!');}, 100);
-                    window.location.reload()
+                    layer.msg(data.message);
+                    if(data.result == 'true'){
+                        layer.alert(data.message,{
+                            skin: 'layui-layer-molv', //样式类名
+                            icon: 1,
+                            },function () {
+                            window.location.reload()
+                        });
+                    }else {
+                        layer.alert(data.message,{
+                            icon: 2,
+                            });
+                    }
                 },
-                fail:function (err,status) {
+                error:function (err,status) {
                     layer.close(layer.index);
-                    setTimeout(function(){layer.msg('提交失败!');}, 100);
-                    console.log(err);
+                    layer.msg(err);
                 },
+            });
+        }
+
+        //初始化详情model
+        function init_view_model(){
+            $("#dep_id").val('');
+            $("#dep_id").attr('value','');
+            $("#dep_name").val('');
+            $("#dep_name").attr('value','');
+            $("#dep_code").val('');
+            $("#dep_code").attr('value','');
+            $.each($("#edit_print_checkbox input:checkbox"),function () {
+                $(this).prop('checked',false);
             });
         }
 
@@ -416,14 +599,32 @@
 
             //获取部门详情
             $("a[name='dep_view']").click(function () {
+                init_view_model();
                 $.get("/rbac/"+this.id,function (data){
                     var dep_info = eval(data.dep_info);
+                    var field_list = [];
+                    if(dep_info[0].depfield__field_str){
+                        field_list = dep_info[0].depfield__field_str.split(",");
+                    }
+
                     //console.log(dep_info);
                     $.each(dep_info,function (i , item) {
                         $("#dep_id").attr("value",item.id);
+                        $("#dep_id").val(item.id);
                         $("#dep_name").attr("value",item.title);
+                        $("#dep_name").val(item.title);
                         $("#dep_code").attr("value",item.dep_code);
+                        $("#dep_code").val(item.dep_code);
                     });
+
+                    $.each(field_list,function (f,item) {
+                        //console.log(item);
+                        if (item == 'fs_vps' ||item == 'ln_vps'){
+                            item = 'fs_ln_vps';
+                        }
+                        $("#edit_print_checkbox input[name=" + item + "]" ).prop("checked",true);
+                    })
+
                 });
             });
 

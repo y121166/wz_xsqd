@@ -1,0 +1,677 @@
+{% load wz_tags %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>单据打印</title>
+    <link rel="stylesheet" href="{{ STATIC_URL }}assets/css/bootstrap.min.css">
+    <script type="text/javascript" src="{{ STATIC_URL }}assets/js/jquery-2.0.3.min.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}wzjs/tool.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}wzjs/jQuery.print.js"></script>
+    <script language="javascript" src="{{ STATIC_URL }}wzjs/lodop/LodopFuncs.js"></script>
+    <object id="LODOP_OB" classid="clsid:2105C259-1E0C-4534-8141-A753534CB4CA" width="0" height="0">
+        <embed id="LODOP_EM" type="application/x-print-lodop" width=0 height=0"></embed>
+    </object>
+
+</head>
+<body>
+
+
+
+<div id="detail_print">
+    <div>
+        <button class="btn btn-sm btn-primary" type="button" data_id="1" name="print_detail" onclick="print_detail()">
+            <i class="icon-ok bigger-110"></i>
+            打印
+        </button>
+
+        <button class="btn btn-sm" data-dismiss="modal" onclick="window.close();">
+            <i class="icon-remove"></i>
+            取消
+        </button>
+    </div>
+    <div id="print_div">
+        <style>
+            caption
+            {
+                caption-side: top;
+            }
+            table
+            {
+                width: 210mm;
+                border-collapse: collapse;
+            }
+
+            #print_table th, #print_table_2 th{
+                text-align: center;
+            }
+
+            #print_table_zb td
+            {
+                font-size: 12px;
+                font-family: "宋体";
+                border: 1px solid black;
+            }
+
+            #print_table_fb td
+            {
+                font-size: 12px;
+                font-family: "宋体";
+                border: 1px solid black;
+                width: 10%;
+            }
+
+            .center{
+                text-align: center;
+            }
+
+            .num{
+                font-family: Arial;
+            }
+
+            table tr
+            {
+                height: 25px;
+            }
+            .letter_spacing{
+                letter-spacing: 2px;
+            }
+
+        </style>
+        <!--主打印表-->
+        <table id="print_table_zb" style="margin:auto" >
+                <caption>
+                    <h3>{{ detaildata.department__title }}-销售单</h3>
+                </caption>
+                <tr>
+                    <td>VIN:</td>
+                    <td colspan="5">
+                        <div>
+                            <strong><span class="letter_spacing">{{ detaildata.vehicle__vin }}</span></strong>
+                        </div>
+                    </td>
+                    <td>NO:</td>
+                    <td colspan="3">
+                        <strong><span  class="letter_spacing">{{ detaildata.order_no }}</span></strong>
+                    </td>
+                    <td rowspan="22" style="">
+                        <span class="center" style="height:350px;font-size:10px;writing-mode:vertical-lr;writing-mode: tb-lr;">第一联财务(白色）第二联销售（红色）第三联财务（黄色）</span>
+                    </td>
+                </tr>
+                <!--项目-->
+                <tr name="xiangmu" class="center">
+                    <td rowspan="2">项目</td>
+                    <td>日期</td>
+                    <td>客户姓名</td>
+                    <td>客户区域</td>
+                    <td>付款方式</td>
+                    <td>
+                        <span class="detail_fkqs">期数</span>
+                    </td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>收款小计</td>
+                </tr>
+                <tr name="xiangmu" class="center">
+                    <td><label class="detail_joinus" name="order_date">{{ detaildata.order_date }}</label></td>
+                    <td><label class="detail_joinus" name="customer_name">{{ detaildata.customer_name }}</label></td>
+                    <td><label class="detail_joinus" name="customer_area">{{ detaildata.customer_area }}</label></td>
+                    <td><span class="detail_joinus" name="payment_way">
+                        {% if detaildata.payment_way == 0 %}
+                        全款
+                        {% elif detaildata.payment_way == 1 %}
+                        分期
+                        {% elif detaildata.payment_way == 2 %}
+                        返贷
+                        {% elif detaildata.payment_way == 3 %}
+                        理财贷
+                        {% else %}
+                        无
+                        {% endif %}
+                    </span></td>
+                    <td><span class="detail_joinusn num" name="payment_nper">{{ detaildata.payment_nper }}</span></td>
+                    <td></td>
+                    <td></td>
+                    <td style="width: 93px"></td>
+                    <td class="ysk_xj">
+                        <strong><span>0.00</span></strong>
+                    </td>
+                </tr>
+
+                <!--裸车-->
+                <tr name="luoche" class="center" >
+                    <td rowspan="2">裸车</td>
+                    <td>车型</td>
+                    <td>六位码</td>
+                    <td>指导价</td>
+                    <td>
+                        <span>优惠</span><br />
+                        <span>含置换补贴</span>
+                    </td>
+                    <td>成交价</td>
+                    <td>保险押金</td>
+                    <td>置换补贴</td>
+                    <td></td>
+                    <td>收款小计</td>
+                </tr>
+                <tr name="luoche" class="center" id = "lc_tr">
+                    <td><span id="vehicle__vehicle_type">{{ detaildata.vehicle__vehicle_type }}</span></td>
+                    <td><span id="vehicle__six_yards">{{ detaildata.vehicle__six_yards }}</span></td>
+                    <td>
+                        <span class="num" id="vehicle__guidance_price">{{ detaildata.vehicle__guidance_price }}</span>
+                    </td>
+                    <td>
+                        <!-- todo 计算总优惠-->
+                        <span class="detail_joinus num" name="detailZyh">
+                            {% simple_tag_detailZyh detaildata.vehicle__guidance_price detaildata.transaction_price detaildata.replacement_subsidy %}
+                        </span>
+                    </td>
+                    <td><span class="num" id="transaction_price">{{ detaildata.transaction_price }}</span></td>
+                    <td><span class="num" id="security_deposit" >{{ detaildata.security_deposit }}</span></td>
+                    <td><span class="num" id="replacement_subsidy">{{ detaildata.replacement_subsidy }}</span></td>
+                    <td></td>
+                    <td class="ysk_xj">
+                        <strong><span class="num xiaoj" id="lc_ysk_xj">{{ detaildata.lc_ysk_xj }}</span></strong>
+                    </td>
+                </tr>
+
+                <!--用品-->
+                <tr name="yongpin" class="center" >
+                    <td rowspan="2">用品</td>
+                    <td>礼包金额</td>
+                    <td>工时费</td>
+                    <td>4G导航</td>
+                    <td>加装金额</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>收款小计</td>
+                </tr>
+                <tr name="yongpin" class="center" id="yp_add">
+                    <td><span class="num" name="gift_je">{{ detaildata.gift_je }}</span></td>
+                    <td><span class="num" name="time_fee">{{ detaildata.time_fee }}</span></td>
+                    <td><span class="num" name="navigation_4G_fee">{{ detaildata.navigation_4G_fee }}</span></td>
+                    <td><span class="num" name="charging_fee">{{ detaildata.charging_fee }}</span></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td class="ysk_xj">
+                        <strong><span class="num xiaoj" id="yp_ysk_xj">{{ detaildata.yp_ysk_xj }}</span></strong>
+                    </td>
+                </tr>
+
+                <!--金融-->
+                <tr name="jinrong" class="center detail_jr" >
+                    <td rowspan="2">金融</td>
+                    <td>首付款</td>
+                    <td>档案管理<br />工本材料费</td>
+                    <td>免抵押费</td>
+                    <td>分期保证金</td>
+                    {% if 'financial_advisory_fee' not in dep_field %}
+                        <td>金融咨询费</td>
+                    {% else %}
+                        <td></td>
+                    {% endif %}
+
+                    {% if 'personal_accident_insurance' not in dep_field %}
+                        <td>人身意外险</td>
+                    {% else %}
+                        <td></td>
+                    {% endif %}
+
+                    {% if 'mortgage_fee' not in dep_field %}
+                        <td>抵押费</td>
+                    {% else %}
+                        <td></td>
+                    {% endif %}
+
+                    {% if 'fs_vps' in dep_field or 'ln_vps' in dep_field %}
+                        <td></td>
+                    {% elif detaildata.fs_vps != 0 %}
+                        <td>方硕VPS</td>
+                    {% elif dateildata.ln_vps != 0 %}
+                        <td>鲁诺VPS</td>
+                    {% endif %}
+
+                    <td>收款小计</td>
+                </tr>
+                <tr name="jinrong" class="center detail_jr" id="print_jr">
+                    <td><span class="num mingx" name="first_payment">{{ detaildata.first_payment }}</span></td>
+                    <td><span class="num mingx" name="labor_cost">{{ detaildata.labor_cost }}</span></td>
+                    <td><span class="num mingx" name="free_mortgage_fee">{{ detaildata.free_mortgage_fee }}</span></td>
+                    <td><span class="num mingx" name="installment_bond">{{ detaildata.installment_bond }}</span></td>
+
+                    {% if 'financial_advisory_fee' not in dep_field %}
+                        <td><span class="num mingx" name="financial_advisory_fee">{{ detaildata.financial_advisory_fee }}</span></td>
+                    {% else %}
+                        <td></td>
+                    {% endif %}
+
+                    {% if 'personal_accident_insurance' not in dep_field %}
+                        <td><span class="num mingx" name="personal_accident_insurance">{{ detaildata.personal_accident_insurance }}</span></td>
+                    {% else %}
+                        <td></td>
+                    {% endif %}
+
+                    {% if 'mortgage_fee' not in dep_field %}
+                        <td><span class="num mingx" name="mortgage_fee">{{ detaildata.mortgage_fee }}</span></td>
+                    {% else %}
+                        <td></td>
+                    {% endif %}
+
+                    {% if 'fs_vps' in dep_field or 'ln_vps' in dep_field %}
+                        <td></td>
+                    {% elif detaildata.fs_vps != 0 %}
+                        <td><span class="num mingx" name="fs_vps">{{ detaildata.fs_vps }}</span></td>
+                    {% elif dateildata.ln_vps != 0 %}
+                        <td><span class="num mingx" name="ln_vps">{{ detaildata.ln_vps }}</span></td>
+                    {% endif %}
+                    <td class="ysk_xj">
+                        <strong><span class="num xiaoj" id="jr_ysk_xj"></span></strong>
+                    </td>
+                </tr>
+
+                <!--保险-->
+                <tr name="baoxian" class="center" >
+                    <td rowspan="2">保险</td>
+                    <td>延保</td>
+                    <td>挂牌费</td>
+
+                    {% if 'glass_insurance' in dep_field %}
+                        <td></td>
+                    {% else %}
+                        <td>玻璃险</td>
+                    {% endif %}
+
+                    {% if 'scratch_risk' in dep_field %}
+                        <td></td>
+                    {% else %}
+                        <td>划痕险</td>
+                    {% endif %}
+
+                    {% if 'theft_insurance' in dep_field %}
+                        <td></td>
+                    {% else %}
+                        <td>盗抢险</td>
+                    {% endif %}
+
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>收款小计</td>
+                </tr>
+                <tr name="baoxian" class="center" id="print_bx">
+                    <td><span class="num mingx" name="extension_insurance">{{ detaildata.extension_insurance }}</span></td>
+                    <td><span class="num mingx" name="listing_fee">{{ detaildata.listing_fee }}</span></td>
+
+                    {% if 'glass_insurance' in dep_field %}
+                        <td></td>
+                    {% else %}
+                        <td><span class="num mingx" name="glass_insurance">{{ detaildata.glass_insurance }}</span></td>
+                    {% endif %}
+
+                    {% if 'scratch_risk' in dep_field %}
+                        <td></td>
+                    {% else %}
+                        <td><span class="num mingx" name="scratch_risk">{{ detaildata.scratch_risk }}</span></td>
+                    {% endif %}
+
+                    {% if 'theft_insurance' in dep_field %}
+                        <td></td>
+                    {% else %}
+                        <td><span class="num mingx" name="theft_insurance">{{ detaildata.theft_insurance }}</span></td>
+                    {% endif %}
+
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td class="ysk_xj">
+                        <strong><span class="num xiaoj" id="bx_ysk_xj">{{ detaildata.bx_ysk_xj }}</span></strong>
+                    </td>
+                </tr>
+
+                <!--增值包-->
+                <tr name="zengzhibao" class="center" >
+                    <td rowspan="2">增值包</td>
+                    <td>增值包收款</td>
+                    <td>保养套餐</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>收款小计</td>
+                </tr>
+                <tr name="zengzhibao" class="center"  id="zzb_add">
+                    <td><span class="detail_joinus num" name="value_added_package">{{ detaildata.value_added_package }}</span></td>
+                    <td><span class="detail_joinus num" name="maintenance_package">{{ detaildata.maintenance_package }}</span></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td class="ysk_xj" name="zzb_ysk_xj">
+                        <strong><span class="detail_joinus num" id="zzb_ysk_xj">{{ detaildata.zzb_ysk_xj }}</span></strong>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="center" >应收款合计:</td>
+                    <td>大写：</td>
+                    <td colspan="6">
+                        <strong><span id="ysk_dx"></span></strong>
+                    </td>
+                    <td>小写</td>
+                    <td>
+                        <strong><span  class="num" id="ysk_xx"></span></strong>
+                    </td>
+                </tr>
+
+                <!--减项-->
+                <tr class="center" >
+                    <td rowspan="2">减项</td>
+                    <td>已收定金</td>
+                    {% if 'esc_potential_price' in dep_field %}
+                        <td></td>
+                    {% else %}
+                        <td>二手车评估价</td>
+                    {% endif %}
+                    {% if 'esc_procurement_price' in dep_field %}
+                        <td></td>
+                    {% else %}
+                        <td>二手车收购价</td>
+                    {% endif %}
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>扣减小计</td>
+                </tr>
+                <tr class="center"  id="print_jx">
+                    <td><span class="num mingx" name="esc_potential_price">{{ detaildata.earnest_money }}</span></td>
+
+                    {% if 'esc_potential_price' in dep_field %}
+                        <td></td>
+                    {% else %}
+                        <td><span class="num mingx" name="theft_insurance">{{ detaildata.esc_potential_price }}</span></td>
+                    {% endif %}
+
+                    {% if 'esc_procurement_price' in dep_field %}
+                        <td></td>
+                    {% else %}
+                        <td><span class="num mingx" name="theft_insurance">{{ detaildata.esc_procurement_price }}</span></td>
+                    {% endif %}
+
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>
+                        <strong><span class="num xiaoj" id="jx_xj"></span></strong>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="center" >收款总计</td>
+                    <td>大写：</td>
+                    <td colspan="6">
+                        <strong><span class="detail_joinus" id="print_skzj_dx"></span></strong>
+                    </td>
+                    <td>小写</td>
+                    <td>
+                        <strong><span class="num" id="print_skzj"></span></strong>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="10">
+                        <small>说明：客户贷款金额：<span class="detail_joinus" name="dkje_xx num">{{ detaildata.dkje_xx }}</span>元</small><br />
+                        <small>置换补贴审批通过后退还客户。</small><br />
+                        <small>此单据由销售内勤开具，两联同时传递给财务，财务审核后收款盖章签后，第一联回传给销售内勤，第二联交会计入账。</small><br />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="center">财务收款：</td>
+                    <td colspan="2"></td>
+                    <td class="center">销售经理：</td>
+                    <td colspan="2"></td>
+                    <td class="center">销售顾问：</td>
+                    <td colspan="3">
+                        <span class="detail_joinus" name="sales_consultant">
+                            {% if detaildata.sales_consultant %}
+                                {{ detaildata.sales_consultant }}
+                            {% endif %}
+                        </span>
+                        <small><span class="detail_joinus" name="submit_date">{{ detaildata.submit_date|date:"Y-m-d" }}</span></small>
+                    </td>
+                </tr>
+            </table>
+
+        <hr>
+
+        {% if dep_field %}
+        <!--副打印表-->
+        <table id="print_table_fb" style="margin:auto" >
+                <caption>
+                    <h3>{{ detaildata.department__title }}-销售单</h3>
+                </caption>
+                <tr>
+                    <td>日期</td>
+                    <td colspan="2"><label class="detail_joinus" name="order_date">{{ detaildata.order_date }}</label></td>
+                    <td colspan="2">VIN:</td>
+                    <td colspan="3">
+                        <div>
+                            <strong><span class="letter_spacing">{{ detaildata.vehicle__vin }}</span></strong>
+                        </div>
+                    </td>
+                    <td >
+                        <strong><span  class="letter_spacing">{{ detaildata.order_no }}</span></strong>
+                    </td>
+                    <td rowspan="8" style="width:1px;height:300px">
+                        <span class="center" style="font-size:5px;writing-mode:vertical-lr;writing-mode: tb-lr;">第一联财务 第二联销售 第三联财务</span>
+                    </td>
+                </tr>
+
+                <!--展示信息-->
+                <tr name="other" class="center">
+                    <td>客户姓名</td>
+                    <td>车型</td>
+                    {% if 'financial_advisory_fee' in dep_field %}
+                        <td>金融咨询费</td>
+                    {% else %}
+                        <td></td>
+                    {% endif %}
+                    {% if 'mortgage_fee' in dep_field %}
+                        <td>抵押费</td>
+                    {% else %}
+                        <td></td>
+                    {% endif %}
+                    {% if 'glass_insurance' in dep_field %}
+                        <td>玻璃险</td>
+                    {% else %}
+                        <td></td>
+                    {% endif %}
+                    {% if 'scratch_risk' in dep_field %}
+                        <td>划痕险</td>
+                    {% else %}
+                        <td></td>
+                    {% endif %}
+                    {% if 'theft_insurance' in dep_field %}
+                        <td>盗抢险</td>
+                    {% else %}
+                        <td></td>
+                    {% endif %}
+                    {% if 'fs_vps' in dep_field and detaildata.fs_vps != 0 %}
+                        <td>fs_vps</td>
+                    {% elif 'ln_vps' in dep_field and detaildata.ln_vps != 0 %}
+                        <td>ln_vps</td>
+                    {% else %}
+                        <td></td>
+                    {% endif %}
+                    <td>小计</td>
+                </tr>
+                <tr id="fb_0" class="center">
+                    <td><span name="customer_name">{{ detaildata.customer_name }}</span></td>
+                    <td><span name="vehicle__vehicle_type">{{ detaildata.vehicle__vehicle_type }}</span></td>
+
+                    {% if 'financial_advisory_fee' in dep_field %}
+                        <td><span class="num mingx" name="fb_je">{{ detaildata.financial_advisory_fee }}</span></td>
+                    {% else %}
+                        <td></td>
+                    {% endif %}
+                    {% if 'mortgage_fee' in dep_field %}
+                        <td><span class="num mingx" name="fb_je">{{ detaildata.mortgage_fee }}</span></td>
+                    {% else %}
+                        <td></td>
+                    {% endif %}
+                    {% if 'glass_insurance' in dep_field %}
+                        <td><span class="num mingx" name="fb_je">{{ detaildata.glass_insurance }}</span></td>
+                    {% else %}
+                        <td></td>
+                    {% endif %}
+                    {% if 'scratch_risk' in dep_field %}
+                        <td><span class="num mingx" name="fb_je">{{ detaildata.scratch_risk }}</span></td>
+                    {% else %}
+                        <td></td>
+                    {% endif %}
+                    {% if 'theft_insurance' in dep_field %}
+                        <td><span class="num mingx" name="fb_je">{{ detaildata.theft_insurance }}</span></td>
+                    {% else %}
+                        <td></td>
+                    {% endif %}
+                    {% if 'fs_vps' in dep_field and detaildata.fs_vps != 0 %}
+                        <td><span class="num mingx" name="fb_je">{{ detaildata.fs_vps }}</span></td>
+                    {% elif 'ln_vps' in dep_field and detaildata.ln_vps != 0 %}
+                        <td><span class="num mingx" name="fb_je">{{ detaildata.ln_vps }}</span></td>
+                    {% else %}
+                        <td></td>
+                    {% endif %}
+                    <td class="num">
+                        <strong><span class="num xiaoj" id="fb_xj">0.00</span></strong>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td colspan="2">合计金额(大写)</td>
+                    <td colspan="6">
+                        <strong><span id="fb_hj_dx"></span></strong>
+                    </td>
+                    <td>
+                        ￥
+                        <strong><span class="num fb_hj" id="fb_hj">0.00</span></strong>
+                    </td>
+                </tr>
+
+                <!--减项-->
+                <tr class="center">
+                    <td rowspan="2">减项</td>
+                    {% if 'esc_potential_price' in dep_field %}
+                        <td>二手车评估价</td>
+                    {% else %}
+                        <td></td>
+                    {% endif %}
+                    {% if 'esc_procurement_price' in dep_field %}
+                        <td>二手车收购价</td>
+                    {% else %}
+                        <td></td>
+                    {% endif %}
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>扣减小计</td>
+                </tr>
+                <tr class="center" id="fb_jx_0">
+                    {% if 'esc_potential_price' in dep_field %}
+                        <td><span class="num mingx" name="fb_je">{{ detaildata.esc_potential_price }}</span></td>
+                    {% else %}
+                        <td></td>
+                    {% endif %}
+
+                    {% if 'esc_procurement_price' in dep_field %}
+                        <td><span class="num mingx" name="fb_je">{{ detaildata.esc_procurement_price }}</span></td>
+                    {% else %}
+                        <td></td>
+                    {% endif %}
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>
+                        <strong><span class="num xiaoj" id="fb_jx_xj">小计</span></strong>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td colspan="2" class="center">整车总收款(大写)</td>
+                    <td colspan="6">
+                        <strong><span class="detail_joinus" id="zc_skzj_dx"></span></strong>
+                    </td>
+                    <td>
+                        ￥
+                        <strong><span class="detail_joinus num" id="zc_skzj_xx"></span></strong>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="center">财务收款：</td>
+                    <td colspan="2"></td>
+                    <td class="center">销售经理：</td>
+                    <td colspan="2"></td>
+                    <td class="center" colspan="1">销售顾问：</td>
+                    <td colspan="2">
+                        <span class="detail_joinus" name="sales_consultant">
+                            {% if detaildata.sales_consultant %}
+                                {{ detaildata.sales_consultant }}
+                            {% endif %}
+                        </span>
+                        <small><span class="detail_joinus" name="submit_date">{{ detaildata.submit_date|date:"Y-m-d" }}</span></small>
+                    </td>
+                </tr>
+            </table>
+        {% endif %}
+    </div>
+</div><!-- PAGE CONTENT ENDS -->
+
+<script type="text/javascript">
+    //打印
+    function print_detail() {
+
+        //根据浏览器版本确认是否安装对应组件
+        var LODOP=getLodop(document.getElementById('LODOP_OB'),document.getElementById('LODOP_EM'));
+        var strVersion=LODOP.VERSION;
+
+        //var Print_init = LODOP.PRINT_INIT("销售单打印");
+        LODOP.SET_PRINT_PAGESIZE(0,2100,2970,"");
+        LODOP.SET_PRINT_MODE("PRINT_PAGE_PERCENT","Full-Width");
+        LODOP.ADD_PRINT_HTM(10,20,"200mm","100%",document.getElementById("print_div").innerHTML);
+        LODOP.PREVIEWA();
+    }
+
+
+
+    $(function () {
+
+        print_xj_zj("print_jr"); //金融
+        print_xj_zj("print_bx"); //保险
+        print_xj_zj("print_jx"); //减项
+
+        print_xj_zj("fb_0");
+        print_xj_zj("fb_jx_0");
+
+        print_zb_zj({{ detaildata.payment_way }});
+        print_fb_zj({{ detaildata.payment_way }});
+
+    });
+
+</script>
+
+</body>
+</html>
